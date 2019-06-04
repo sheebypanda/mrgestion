@@ -1,8 +1,9 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Employeurs</h1>
-
-<table>
+<% if notice  %>
+  <div class="alert alert-success animated slideInDown" role="alert">
+    <%= notice %>
+  </div>
+<% end %>
+<table class="table table-hover table-borderless">
   <thead>
     <tr>
       <th>Nom</th>
@@ -35,7 +36,3 @@
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Employeur', new_employeur_path %>

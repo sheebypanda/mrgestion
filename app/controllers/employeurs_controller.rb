@@ -1,34 +1,26 @@
 class EmployeursController < ApplicationController
   before_action :set_employeur, only: [:show, :edit, :update, :destroy]
 
-  # GET /employeurs
-  # GET /employeurs.json
   def index
     @employeurs = Employeur.all
   end
 
-  # GET /employeurs/1
-  # GET /employeurs/1.json
   def show
   end
 
-  # GET /employeurs/new
   def new
     @employeur = Employeur.new
   end
 
-  # GET /employeurs/1/edit
   def edit
   end
 
-  # POST /employeurs
-  # POST /employeurs.json
   def create
     @employeur = Employeur.new(employeur_params)
 
     respond_to do |format|
       if @employeur.save
-        format.html { redirect_to @employeur, notice: 'Employeur was successfully created.' }
+        format.html { redirect_to employeurs_path, notice: 'Employeur was successfully created.' }
         format.json { render :show, status: :created, location: @employeur }
       else
         format.html { render :new }
@@ -37,12 +29,10 @@ class EmployeursController < ApplicationController
     end
   end
 
-  # PATCH/PUT /employeurs/1
-  # PATCH/PUT /employeurs/1.json
   def update
     respond_to do |format|
       if @employeur.update(employeur_params)
-        format.html { redirect_to @employeur, notice: 'Employeur was successfully updated.' }
+        format.html { redirect_to employeurs_path, notice: 'Employeur was successfully updated.' }
         format.json { render :show, status: :ok, location: @employeur }
       else
         format.html { render :edit }
@@ -51,8 +41,6 @@ class EmployeursController < ApplicationController
     end
   end
 
-  # DELETE /employeurs/1
-  # DELETE /employeurs/1.json
   def destroy
     @employeur.destroy
     respond_to do |format|

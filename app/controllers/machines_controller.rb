@@ -1,34 +1,26 @@
 class MachinesController < ApplicationController
   before_action :set_machine, only: [:show, :edit, :update, :destroy]
 
-  # GET /machines
-  # GET /machines.json
   def index
     @machines = Machine.all
   end
 
-  # GET /machines/1
-  # GET /machines/1.json
   def show
   end
 
-  # GET /machines/new
   def new
     @machine = Machine.new
   end
 
-  # GET /machines/1/edit
   def edit
   end
 
-  # POST /machines
-  # POST /machines.json
   def create
     @machine = Machine.new(machine_params)
 
     respond_to do |format|
       if @machine.save
-        format.html { redirect_to @machine, notice: 'Machine was successfully created.' }
+        format.html { redirect_to machines_path, notice: 'Machine was successfully created.' }
         format.json { render :show, status: :created, location: @machine }
       else
         format.html { render :new }
@@ -37,8 +29,6 @@ class MachinesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /machines/1
-  # PATCH/PUT /machines/1.json
   def update
     respond_to do |format|
       if @machine.update(machine_params)
@@ -51,8 +41,6 @@ class MachinesController < ApplicationController
     end
   end
 
-  # DELETE /machines/1
-  # DELETE /machines/1.json
   def destroy
     @machine.destroy
     respond_to do |format|

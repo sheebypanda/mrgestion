@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
+  <a class="navbar-brand" href="#"><span class="text-warning">MR</span>Gestion</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="dropdown-toggle btn btn-outline-warning" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= fa_icon('plus') %> Ajouter
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="<%= new_prestation_path %>"><%= fa_icon('wrench') %> Prestation</a>
+          <a class="dropdown-item" href="<%= new_employeur_path %>"><%= fa_icon('user') %> Employeur</a>
+          <a class="dropdown-item" href="<%= new_client_path %>"><%= fa_icon('user-o') %> Client</a>
+          <a class="dropdown-item" href="<%= new_machine_path %>"><%= fa_icon('truck') %> Machine</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<%= new_intempery_path %>"><%= fa_icon('cloud') %> Intempérie</a>
+          <a class="dropdown-item" href="<%= new_jourfery_path %>"><%= fa_icon('hotel') %> Jour férié</a>
+        </div>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/prestations') %>active<% end %>">
+        <a class="nav-link" href="<%= prestations_path %>"><%= fa_icon('wrench', class: 'text-warning') %> Prestations</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/employeurs') %>active<% end %>">
+        <a class="nav-link" href="<%= employeurs_path %>"><%= fa_icon('user', class: 'text-warning') %> Employeurs</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/clients') %>active<% end %>">
+        <a class="nav-link" href="<%= clients_path %>"><%= fa_icon('user-o', class: 'text-warning') %> clients</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/machines') %>active<% end %>">
+        <a class="nav-link" href="<%= machines_path %>"><%= fa_icon('truck', class: 'text-warning') %> Machines</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/intemperies') %>active<% end %>">
+        <a class="nav-link" href="<%= intemperies_path %>"><%= fa_icon('shower', class: 'text-warning') %> Intempéries</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/jourferies') %>active<% end %>">
+        <a class="nav-link" href="<%= jourferies_path %>"><%= fa_icon('hotel', class: 'text-warning') %> Jours fériés</a>
+      </li>
+    </ul>
+  </div>
+</nav>
