@@ -1,0 +1,2 @@
+class Intemperie < ApplicationRecord
+end

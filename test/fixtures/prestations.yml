@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employeur: one
+  client: one
+  machine: one
+  debut: 2019-06-04
+  fin: 2019-06-04
+  nbjour: 1
+  hsup: 1
+  adresse: MyString
+  ville: MyString
+
+two:
+  employeur: two
+  client: two
+  machine: two
+  debut: 2019-06-04
+  fin: 2019-06-04
+  nbjour: 1
+  hsup: 1
+  adresse: MyString
+  ville: MyString

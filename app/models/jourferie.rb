@@ -1,0 +1,2 @@
+class Jourferie < ApplicationRecord
+end

@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Employeur:</strong>
+  <%= @prestation.employeur %>
+</p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @prestation.client %>
+</p>
+
+<p>
+  <strong>Machine:</strong>
+  <%= @prestation.machine %>
+</p>
+
+<p>
+  <strong>Debut:</strong>
+  <%= @prestation.debut %>
+</p>
+
+<p>
+  <strong>Fin:</strong>
+  <%= @prestation.fin %>
+</p>
+
+<p>
+  <strong>Nbjour:</strong>
+  <%= @prestation.nbjour %>
+</p>
+
+<p>
+  <strong>Hsup:</strong>
+  <%= @prestation.hsup %>
+</p>
+
+<p>
+  <strong>Adresse:</strong>
+  <%= @prestation.adresse %>
+</p>
+
+<p>
+  <strong>Ville:</strong>
+  <%= @prestation.ville %>
+</p>
+
+<%= link_to 'Edit', edit_prestation_path(@prestation) %> |
+<%= link_to 'Back', prestations_path %>

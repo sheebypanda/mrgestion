@@ -1,0 +1,20 @@
+
+<%= simple_form_for(@employeur) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :nom %>
+    <%= f.input :siret %>
+    <%= f.input :adresse %>
+    <%= f.input :cp %>
+    <%= f.input :ville %>
+    <%= f.input :tel %>
+    <%= f.input :email %>
+    <%= f.input :email2 %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
