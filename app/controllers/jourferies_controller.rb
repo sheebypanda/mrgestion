@@ -20,7 +20,7 @@ class JourferiesController < ApplicationController
 
     respond_to do |format|
       if @jourfery.save
-        format.html { redirect_to jourferies_path, notice: 'Jourferie was successfully created.' }
+        format.html { redirect_to jourferies_path, notice: 'Jour férié ajouté.' }
         format.json { render :show, status: :created, location: @jourfery }
       else
         format.html { render :new }
@@ -32,7 +32,7 @@ class JourferiesController < ApplicationController
   def update
     respond_to do |format|
       if @jourfery.update(jourfery_params)
-        format.html { redirect_to jourferies_path, notice: 'Jourferie was successfully updated.' }
+        format.html { redirect_to jourferies_path, notice: 'Jour férié modifié.' }
         format.json { render :show, status: :ok, location: @jourfery }
       else
         format.html { render :edit }
@@ -44,7 +44,7 @@ class JourferiesController < ApplicationController
   def destroy
     @jourfery.destroy
     respond_to do |format|
-      format.html { redirect_to jourferies_url, notice: 'Jourferie was successfully destroyed.' }
+      format.html { redirect_to jourferies_url, notice: 'Jour férié supprimé.' }
       format.json { head :no_content }
     end
   end
