@@ -59,6 +59,9 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.3)
+    business_time (0.9.3)
+      activesupport (>= 3.2.0)
+      tzinfo
     byebug (11.0.1)
     capybara (3.22.0)
       addressable
@@ -227,6 +230,7 @@ DEPENDENCIES
   animate-rails
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
+  business_time
   byebug
   capybara (>= 2.15)
   chromedriver-helper

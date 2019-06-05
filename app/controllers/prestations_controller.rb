@@ -17,9 +17,7 @@ class PrestationsController < ApplicationController
 
   def create
     @prestation = Prestation.new(prestation_params)
-    unless @prestation.nbjour.present?
-      @prestation.nbjour = (@prestation.fin - @prestation.debut ).to_i + 1
-    end
+    @prestation.nbjour = @prestation.debut.business_dates_until(@prestation.fin).count + 1
 
     respond_to do |format|
       if @prestation.save
@@ -33,9 +31,7 @@ class PrestationsController < ApplicationController
   end
 
   def update
-   unless params['prestation']['nbjour'].to_i != @prestation.nbjour.to_i
-     params['prestation']['nbjour'] = (params['prestation']['fin'].to_date - params['prestation']['debut'].to_date ).to_i + 1
-   end
+    params['prestation']['nbjour'] = params['prestation']['debut'].to_date.business_dates_until(params['prestation']['fin'].to_date).count + 1
     respond_to do |format|
       if @prestation.update(prestation_params)
         format.html { redirect_to prestations_path, notice: 'Prestation modifiée.' }
