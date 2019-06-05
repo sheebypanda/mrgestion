@@ -5,6 +5,12 @@ class PrestationsController < ApplicationController
     @prestations = Prestation.all
   end
 
+  def calendrier
+    @prestations = Prestation.all
+    @jourferies = Jourferie.all
+    @intemperies = Intemperie.all
+  end
+
   def show
   end
 

@@ -1,0 +1,14 @@
+
+<%= month_calendar events: @prestations  do |date, prestations| %>
+  <%= date.day %>
+  <% if Intemperie.where(date: date).present? %>
+    <div class="alert alert-primary text-center"><%= fa_icon('shower') %> Intempérie</div>
+  <% end %>
+  <% if Jourferie.where(date: date).present? %>
+    <div class="alert alert-danger text-center"><%= fa_icon('hotel') %> Férié</div>
+  <% end %>
+  <% prestations.each do |p| %>
+    <div><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-warning"><%= fa_icon('user') %> <%= p.employeur.nom %></span></a></div>
+    <div><span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %><span class="badge badge-warning"></div>
+  <% end %>
+<% end %>

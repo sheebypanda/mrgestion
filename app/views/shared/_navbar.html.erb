@@ -19,6 +19,9 @@
           <a class="dropdown-item" href="<%= new_jourfery_path %>"><%= fa_icon('hotel') %> Jour férié</a>
         </div>
       </li>
+      <li class="nav-item <% if request.path.start_with?('/calendrier') %>active<% end %>">
+        <a class="nav-link" href="/calendrier"><%= fa_icon('calendar', class: 'text-warning') %> Calendrier</a>
+      </li>
       <li class="nav-item <% if request.path.start_with?('/prestations') %>active<% end %>">
         <a class="nav-link" href="<%= prestations_path %>"><%= fa_icon('wrench', class: 'text-warning') %> Prestations</a>
       </li>
