@@ -41,7 +41,7 @@
 <%= month_calendar events: @prestations  do |date, prestations| %>
   <%= date.day %>
   <% prestations.each do |p| %>
-    <div><span class="badge badge-warning"><%= fa_icon('user') %> <%= p.employeur.nom %><span class="badge badge-warning"></div>
+    <div><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-warning"><%= fa_icon('user') %> <%= p.employeur.nom %><span class="badge badge-warning"></a></div>
     <div><span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %><span class="badge badge-warning"></div>
   <% end %>
 <% end %>
