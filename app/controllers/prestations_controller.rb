@@ -1,34 +1,29 @@
 class PrestationsController < ApplicationController
   before_action :set_prestation, only: [:show, :edit, :update, :destroy]
 
-  # GET /prestations
-  # GET /prestations.json
   def index
     @prestations = Prestation.all
   end
 
-  # GET /prestations/1
-  # GET /prestations/1.json
   def show
   end
 
-  # GET /prestations/new
   def new
     @prestation = Prestation.new
   end
 
-  # GET /prestations/1/edit
   def edit
   end
 
-  # POST /prestations
-  # POST /prestations.json
   def create
     @prestation = Prestation.new(prestation_params)
+    unless @prestation.nbjour.present?
+      @prestation.nbjour = (@prestation.fin - @prestation.debut ).to_i + 1
+    end
 
     respond_to do |format|
       if @prestation.save
-        format.html { redirect_to @prestation, notice: 'Prestation was successfully created.' }
+        format.html { redirect_to prestations_path, notice: 'Prestation créée.' }
         format.json { render :show, status: :created, location: @prestation }
       else
         format.html { render :new }
@@ -37,12 +32,13 @@ class PrestationsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /prestations/1
-  # PATCH/PUT /prestations/1.json
   def update
+   unless params['prestation']['nbjour'].to_i != @prestation.nbjour.to_i
+     params['prestation']['nbjour'] = (params['prestation']['fin'].to_date - params['prestation']['debut'].to_date ).to_i + 1
+   end
     respond_to do |format|
       if @prestation.update(prestation_params)
-        format.html { redirect_to @prestation, notice: 'Prestation was successfully updated.' }
+        format.html { redirect_to prestations_path, notice: 'Prestation modifiée.' }
         format.json { render :show, status: :ok, location: @prestation }
       else
         format.html { render :edit }
@@ -51,12 +47,10 @@ class PrestationsController < ApplicationController
     end
   end
 
-  # DELETE /prestations/1
-  # DELETE /prestations/1.json
   def destroy
     @prestation.destroy
     respond_to do |format|
-      format.html { redirect_to prestations_url, notice: 'Prestation was successfully destroyed.' }
+      format.html { redirect_to prestations_url, notice: 'Prestation supprimée.' }
       format.json { head :no_content }
     end
   end

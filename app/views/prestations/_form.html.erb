@@ -1,21 +1,45 @@
-
 <%= simple_form_for(@prestation) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.association :employeur %>
-    <%= f.association :client %>
-    <%= f.association :machine %>
-    <%= f.input :debut %>
-    <%= f.input :fin %>
-    <%= f.input :nbjour %>
-    <%= f.input :hsup %>
-    <%= f.input :adresse %>
-    <%= f.input :ville %>
-  </div>
+    <div class="row">
+      <div class="col">
+        <%= f.association :employeur, label_method: :nom %>
+      </div>
+      <div class="col">
+      <%= f.association :client, label_method: :nom %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.association :machine, label_method: lambda {|e| "#{e.marque} #{e.modele} - #{e.poids}"} %>
+      </div>
+      <div class="col">
+        <%= f.input :nbjour %>
+      </div>
+      <div class="col">
+        <%= f.input :hsup %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.input :debut, as: :string, input_html: {type: :date} %>
+      </div>
+      <div class="col">
+        <%= f.input :fin, as: :string, input_html: {type: :date} %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.input :adresse %>
+      </div>
+      <div class="col">
+        <%= f.input :ville %>
+      </div>
+    </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, class: 'btn btn-warning' %>
   </div>
 <% end %>

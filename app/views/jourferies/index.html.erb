@@ -16,7 +16,7 @@
       <tr>
         <td><%= l(jourfery.date, format: '%A %d %B %Y') %></td>
         <td><%= link_to 'Modifier', edit_jourfery_path(jourfery) %></td>
-        <td><%= link_to 'Détruire', jourfery, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Détruire', jourfery, method: :delete, data: { confirm: 'Are you sure?' } , class: 'text-danger'%></td>
       </tr>
     <% end %>
   </tbody>

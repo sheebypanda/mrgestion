@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark sticky-top bg-dark">
-  <a class="navbar-brand" href="#"><span class="text-warning">MR</span>Gestion</a>
+  <a class="navbar-brand" href="<%= prestations_path %>"><span class="text-warning">MR</span>Gestion</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -15,7 +15,7 @@
           <a class="dropdown-item" href="<%= new_client_path %>"><%= fa_icon('user-o') %> Client</a>
           <a class="dropdown-item" href="<%= new_machine_path %>"><%= fa_icon('truck') %> Machine</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="<%= new_intempery_path %>"><%= fa_icon('cloud') %> Intempérie</a>
+          <a class="dropdown-item" href="<%= new_intempery_path %>"><%= fa_icon('shower') %> Intempérie</a>
           <a class="dropdown-item" href="<%= new_jourfery_path %>"><%= fa_icon('hotel') %> Jour férié</a>
         </div>
       </li>
@@ -26,7 +26,7 @@
         <a class="nav-link" href="<%= employeurs_path %>"><%= fa_icon('user', class: 'text-warning') %> Employeurs</a>
       </li>
       <li class="nav-item <% if request.path.start_with?('/clients') %>active<% end %>">
-        <a class="nav-link" href="<%= clients_path %>"><%= fa_icon('user-o', class: 'text-warning') %> clients</a>
+        <a class="nav-link" href="<%= clients_path %>"><%= fa_icon('user-o', class: 'text-warning') %> Clients</a>
       </li>
       <li class="nav-item <% if request.path.start_with?('/machines') %>active<% end %>">
         <a class="nav-link" href="<%= machines_path %>"><%= fa_icon('truck', class: 'text-warning') %> Machines</a>
