@@ -5,37 +5,48 @@
   <div class="form-inputs">
     <div class="row">
       <div class="col">
-        <%= f.association :employeur, label_method: :nom %>
+        <%= f.association :employeur, label_method: :nom, label: fa_icon('user')+' Employeur'  %>
       </div>
       <div class="col">
-      <%= f.association :client, label_method: :nom %>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        <%= f.association :machine, label_method: lambda {|e| "#{e.marque} #{e.modele} - #{e.poids}"} %>
+      <%= f.association :client, label_method: :nom, label: fa_icon('user-o')+' Client'  %>
       </div>
       <div class="col">
-        <%= f.input :nbjour %>
-      </div>
-      <div class="col">
-        <%= f.input :hsup %>
+        <%= f.association :machine, label_method: lambda {|e| "#{e.marque} #{e.modele} - #{e.poids}"}, label: fa_icon('truck')+' Machine'  %>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <%= f.input :debut, as: :string, input_html: {type: :date} %>
+        <%= f.input :nbjour, label: fa_icon('address-book')+' Nombre de jour travaillé'  %>
       </div>
       <div class="col">
-        <%= f.input :fin, as: :string, input_html: {type: :date} %>
+        <%= f.input :hsup, label: fa_icon('clock-o')+' heures sup\''  %>
+      </div>
+      <div class="col">
+        <%= f.input :bondecommande, label: fa_icon('barcode')+' Bon de commande'  %>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <%= f.input :adresse %>
+        <%= f.input :debut, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Début'  %>
       </div>
       <div class="col">
-        <%= f.input :ville %>
+        <%= f.input :fin, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Fin'  %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.input :adresse, label: fa_icon('map-marker')+' Adresse'  %>
+      </div>
+      <div class="col">
+        <%= f.input :ville, label: fa_icon('institution')+' Ville'  %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.input :nomchef, label: fa_icon('address-book')+' Nom du chef' %>
+      </div>
+      <div class="col">
+        <%= f.input :tel, label: fa_icon('mobile')+' Portable'  %>
       </div>
     </div>
 

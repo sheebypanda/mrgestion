@@ -1,14 +1,32 @@
 
 <%= month_calendar events: @prestations  do |date, prestations| %>
   <span class="badge badge-light"><%= date.day %></span>
-  <% if Intemperie.where(date: date).present? %>
-    <div class="alert alert-primary text-center"><%= fa_icon('shower') %> Intempérie</div>
-  <% end %>
-  <% if Jourferie.where(date: date).present? %>
-    <div class="alert alert-danger text-center"><%= fa_icon('hotel') %> Férié</div>
-  <% end %>
+
   <% prestations.each do |p| %>
-    <div><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-warning"><%= fa_icon('user') %> <%= p.employeur.nom %></span></a></div>
-    <div><span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %><span class="badge badge-warning"></div>
+
+  <div class="row">
+  <div class="col">
+
+    <div class="card text-white bg-secondary" style="width: 18rem;">
+      <div class="card-header">
+        <h5 class="card-title d-flex justify-content-between align-items-center">
+          <a href="<%= edit_prestation_path(p) %>"><span class="badge badge-warning"><%= fa_icon('user') %> <%= p.employeur.nom %></span></a>
+          <% if Jourferie.where(date: date).present? %>
+          <span class="badge badge-pill badge-danger"><%= fa_icon('hotel') %> Férié</span>
+          <% end %>
+          <% if Intemperie.where(date: date).present? %>
+          <span class="badge badge-pill badge-primary"><%= fa_icon('shower') %> Intempérie</span>
+          <% end %>
+        </h5>
+      </div>
+      <div class="card-body">
+        <p class="card-text"><span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %></span><br>
+        <span class="badge badge-light"><%= fa_icon('address-book') %> <%= p.nomchef %></span><br>
+        <span class="badge badge-light"><%= fa_icon('mobile') %> <%= p.tel %></span></p>
+      </div>
+    </div>
+    </div>
+    </div>
+
   <% end %>
 <% end %>

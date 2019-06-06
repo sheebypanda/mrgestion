@@ -33,7 +33,9 @@
                 <% total = 0 %>
                 <% prestations.where(employeur: e).each do |p| %>
                   <tr>
-                    <td><span class="badge badge-secondary"><%= fa_icon('map-marker')%> <%= p.adresse %></span></td>
+                    <td><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-secondary"><%= fa_icon('map-marker')%> <%= p.adresse %></span>
+                      <span class="badge badge-light"><small><%= fa_icon('user')%> <%= p.nomchef %></small></span>
+                    </a></td>
                     <td><span class="badge badge-light"><%= fa_icon('calendar')%> <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %></span></td>
                     <td><span class="badge badge-pill badge-warning"><%= p.nbjour %>j</span></td>
                     <td><span class="badge badge-light badge-pill"><%= tarif.to_f %> €</span></td>
