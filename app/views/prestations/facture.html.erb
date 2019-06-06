@@ -23,6 +23,7 @@
                 <tr>
                   <th>Lieu</th>
                   <th>Période</th>
+                  <th><%= fa_icon('road')%></th>
                   <th><%= fa_icon('shower')%></th>
                   <th><%= fa_icon('hotel')%></th>
                   <th>Qte</th>
@@ -34,26 +35,39 @@
                 <% tarif = 200 %>
                 <% total = 0 %>
                 <% prestations.where(employeur: e).each do |p| %>
+                <% i = 0 %>
+                <% j = 0 %>
+                <% km = 0 %>
                   <tr>
                     <td><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-secondary"><%= fa_icon('map-marker')%> <%= p.adresse %></span>
                       <span class="badge badge-light"><small><%= fa_icon('user')%> <%= p.nomchef %></small></span>
                     </a></td>
                     <td><span class="badge badge-light"><%= fa_icon('calendar')%> <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %></span></td>
                     <td>
+                      <% if p.km %>
+                        <% km = p.km * 0.8 %>
+                        <span class="badge badge-pill badge-dark"><%= p.km  %> Km x 0.8 € = <%= km.round(2) %> €</span>
+                      <% end %>
+                    </td>
+                    <td>
                       <% if Intemperie.where(date: p.debut..p.fin) %>
-                        <% i = Intemperie.where(date: p.debut..p.fin).count %>
-                        <span class="badge badge-pill badge-info"><%= i %></span>
+                        <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
+                          <% i = Intemperie.where(date: p.debut..p.fin).count %>
+                          <span class="badge badge-pill badge-info"><%= i %></span>
+                        <% end %>
                       <% end %>
                     </td>
                     <td>
                       <% if Jourferie.where(date: p.debut..p.fin) %>
-                        <% j = Jourferie.where(date: p.debut..p.fin).count %>
-                        <span class="badge badge-pill badge-danger"><%= j %></span>
+                        <% if Jourferie.where(date: p.debut..p.fin).count > 0 %>
+                          <% j = Jourferie.where(date: p.debut..p.fin).count %>
+                          <span class="badge badge-pill badge-danger"><%= j %></span>
+                        <% end %>
                       <% end %>
                     </td>
                     <td><span class="badge badge-pill badge-warning"><%= p.nbjour %>j</span></td>
                     <td><span class="badge badge-light badge-pill"><%= tarif.to_f %> €</span></td>
-                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) %><%= stotal %> €</span></td>
+                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) - km %><%= stotal %> €</span></td>
                   </tr>
                   <% total = total + stotal %>
                 <% end %>
@@ -64,7 +78,8 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td><span class="badge badge-primary badge-pill"><%= total %> €</span></td>
+                  <td></td>
+                  <td><span class="badge badge-primary badge-pill"><%= total.round(2)  %> €</span></td>
                 </tr>
                 <tr>
                   <th>TVA 20%</th>
@@ -73,7 +88,8 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td><span class="badge badge-secondary badge-pill"><% tva = total * 0.2 %><%= tva %> €</span></td>
+                  <td></td>
+                  <td><span class="badge badge-secondary badge-pill"><% tva = total * 0.2 %><%= tva.round(2) %> €</span></td>
                 </tr>
                 <tr>
                   <th><strong>Total TTC</strong></th>
@@ -82,7 +98,8 @@
                   <td></td>
                   <td></td>
                   <td></td>
-                  <td><span class="badge badge-danger badge-pill"><%= total + tva %> €</span></td>
+                  <td></td>
+                  <td><span class="badge badge-danger badge-pill"><%= (total + tva).round(2) %> €</span></td>
                 </tr>
               </tbody>
             </table>

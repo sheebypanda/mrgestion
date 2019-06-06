@@ -20,7 +20,12 @@
         </h5>
       </div>
       <div class="card-body">
-        <p class="card-text"><span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %></span><br>
+        <p class="card-text">
+          <span class="badge badge-secondary"><%= fa_icon('map-marker') %> <%= p.adresse %> <%= p.ville %>
+            <% if p.km %>
+              <span class="badge gadge_pill badge-dark"><%= fa_icon('road') %> <%= p.km %> Km</span>
+            <% end %>
+          </span><br>
         <span class="badge badge-light"><%= fa_icon('address-book') %> <%= p.nomchef %></span><br>
         <span class="badge badge-light"><%= fa_icon('mobile') %> <%= p.tel %></span></p>
       </div>

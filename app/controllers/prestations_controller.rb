@@ -68,6 +68,6 @@ class PrestationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def prestation_params
-      params.require(:prestation).permit(:employeur_id, :client_id, :machine_id, :debut, :fin, :nbjour, :hsup, :adresse, :ville, :tel, :nomchef, :bondecommande)
+      params.require(:prestation).permit(:employeur_id, :client_id, :machine_id, :debut, :fin, :nbjour, :hsup, :adresse, :ville, :tel, :nomchef, :bondecommande,:km)
     end
 end
