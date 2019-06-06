@@ -1,8 +1,40 @@
-<% @prestations.each do |p| %>
+<% current_year = Date.today.year %>
 
-  <% if true %>
+<h1><%= current_year %></h1>
 
-  <p><%= p.debut %> <%= p.fin %></p>
+<% for m in (1..Date.today.month).reverse_each do %>
 
+  <% month = Date.parse('01/' + m.to_s + '/' + current_year.to_s) %>
+
+  <h3><%= fa_icon('calendar ') %> <%= l(month, format: '%B') %></h3>
+
+  <% current_month = (month.beginning_of_month..month.end_of_month) %>
+  <% prestations = Prestation.where(debut: current_month).or(Prestation.where(fin: current_month)) %>
+
+  <% Employeur.all.each do |e| %>
+    <% if prestations.where(employeur: e).present? %>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= fa_icon('user') %> <%= e.nom %></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <% prestations.where(employeur: e).each do |p| %>
+            <li class="list-group-item">
+              <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %> -
+              <%= p.nbjour %> jours
+              <%= p.adresse %>
+            </li>
+          <% end %>
+        </ul>
+        <div class="card-body">
+          <a href="#" class="card-link">Card link</a>
+          <a href="#" class="card-link">Another link</a>
+        </div>
+      </div>
+
+    <% end %>
   <% end %>
+
 <% end %>
