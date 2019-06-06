@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   root 'prestations#calendrier'
 
   get '/calendrier', to: 'prestations#calendrier'
+  get '/factures', to: 'prestations#facture'
 end

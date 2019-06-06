@@ -11,6 +11,11 @@ class PrestationsController < ApplicationController
     @intemperies = Intemperie.all
   end
 
+  def facture
+    time_range = (Date.today.beginning_of_month..Date.today.end_of_month)
+    @prestations = Prestation.where(debut: time_range).or(Prestation.where(fin: time_range))
+  end
+
   def show
   end
 
