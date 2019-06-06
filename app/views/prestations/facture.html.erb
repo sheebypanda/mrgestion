@@ -10,31 +10,70 @@
 
   <% current_month = (month.beginning_of_month..month.end_of_month) %>
   <% prestations = Prestation.where(debut: current_month).or(Prestation.where(fin: current_month)) %>
+  <div class="row">
+    <% Employeur.all.each do |e| %>
+      <% if prestations.where(employeur: e).present? %>
+        <div class="col">
+          <div class="card mt-3 mb-3">
+            <div class="card-body">
+              <h5 class="card-title"><%= fa_icon('user') %> <%= e.nom %></h5>
+            </div>
+            <table class="table table-borderless">
+              <thead>
+                <tr>
+                  <th>Lieu</th>
+                  <th>Période</th>
+                  <th>Qte</th>
+                  <th>P.U. HT</th>
+                  <th>Montant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% tarif = 200 %>
+                <% total = 0 %>
+                <% prestations.where(employeur: e).each do |p| %>
+                  <tr>
+                    <td><span class="badge badge-secondary"><%= fa_icon('map-marker')%> <%= p.adresse %></span></td>
+                    <td><span class="badge badge-light"><%= fa_icon('calendar')%> <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %></span></td>
+                    <td><span class="badge badge-pill badge-warning"><%= p.nbjour %>j</span></td>
+                    <td><span class="badge badge-light badge-pill"><%= tarif.to_f %> €</span></td>
+                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * p.nbjour %><%= stotal %> €</span></td>
+                  </tr>
+                  <% total = total + stotal %>
+                <% end %>
+                <tr>
+                  <th>Total HT</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><span class="badge badge-primary badge-pill"><%= total %> €</span></td>
+                </tr>
+                <tr>
+                  <th>TVA 20%</th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><span class="badge badge-secondary badge-pill"><% tva = total * 0.2 %><%= tva %> €</span></td>
+                </tr>
+                <tr>
+                  <th><strong>Total TTC</strong></th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><span class="badge badge-danger badge-pill"><%= total + tva %> €</span></td>
+                </tr>
+              </tbody>
+            </table>
 
-  <% Employeur.all.each do |e| %>
-    <% if prestations.where(employeur: e).present? %>
-
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><%= fa_icon('user') %> <%= e.nom %></h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="card-body">
+              <a href="#" class="btn btn-warning"><%= fa_icon('file-pdf-o')%> Exporter en PDF</a>
+              <a href="#" class="btn btn-success disabled"><%= fa_icon('envelope')%> Envoyer par mail</a>
+            </div>
+          </div>
         </div>
-        <ul class="list-group list-group-flush">
-          <% prestations.where(employeur: e).each do |p| %>
-            <li class="list-group-item">
-              <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %> -
-              <%= p.nbjour %> jours
-              <%= p.adresse %>
-            </li>
-          <% end %>
-        </ul>
-        <div class="card-body">
-          <a href="#" class="card-link">Card link</a>
-          <a href="#" class="card-link">Another link</a>
-        </div>
-      </div>
-
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 
+  <hr class="my-4">
 <% end %>
