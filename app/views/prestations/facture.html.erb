@@ -14,15 +14,17 @@
     <% Employeur.all.each do |e| %>
       <% if prestations.where(employeur: e).present? %>
         <div class="col">
-          <div class="card mt-3 mb-3">
+          <div class="card mt-3 mb-3 border-warning">
             <div class="card-body">
               <h5 class="card-title"><%= fa_icon('user') %> <%= e.nom %></h5>
             </div>
-            <table class="table table-borderless">
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th>Lieu</th>
                   <th>Période</th>
+                  <th><%= fa_icon('shower')%></th>
+                  <th><%= fa_icon('hotel')%></th>
                   <th>Qte</th>
                   <th>P.U. HT</th>
                   <th>Montant</th>
@@ -37,14 +39,28 @@
                       <span class="badge badge-light"><small><%= fa_icon('user')%> <%= p.nomchef %></small></span>
                     </a></td>
                     <td><span class="badge badge-light"><%= fa_icon('calendar')%> <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %></span></td>
+                    <td>
+                      <% if Intemperie.where(date: p.debut..p.fin) %>
+                        <% i = Intemperie.where(date: p.debut..p.fin).count %>
+                        <span class="badge badge-pill badge-info"><%= i %></span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if Jourferie.where(date: p.debut..p.fin) %>
+                        <% j = Jourferie.where(date: p.debut..p.fin).count %>
+                        <span class="badge badge-pill badge-danger"><%= j %></span>
+                      <% end %>
+                    </td>
                     <td><span class="badge badge-pill badge-warning"><%= p.nbjour %>j</span></td>
                     <td><span class="badge badge-light badge-pill"><%= tarif.to_f %> €</span></td>
-                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * p.nbjour %><%= stotal %> €</span></td>
+                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) %><%= stotal %> €</span></td>
                   </tr>
                   <% total = total + stotal %>
                 <% end %>
                 <tr>
                   <th>Total HT</th>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -55,10 +71,14 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
+                  <td></td>
                   <td><span class="badge badge-secondary badge-pill"><% tva = total * 0.2 %><%= tva %> €</span></td>
                 </tr>
                 <tr>
                   <th><strong>Total TTC</strong></th>
+                  <td></td>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
