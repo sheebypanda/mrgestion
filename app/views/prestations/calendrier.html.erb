@@ -1,6 +1,6 @@
 
 <%= month_calendar events: @prestations  do |date, prestations| %>
-  <%= date.day %>
+  <span class="badge badge-light"><%= date.day %></span>
   <% if Intemperie.where(date: date).present? %>
     <div class="alert alert-primary text-center"><%= fa_icon('shower') %> Intempérie</div>
   <% end %>
