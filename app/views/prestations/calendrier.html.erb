@@ -26,8 +26,17 @@
               <span class="badge gadge_pill badge-dark"><%= fa_icon('road') %> <%= p.km %> Km</span>
             <% end %>
           </span><br>
-        <span class="badge badge-light"><%= fa_icon('address-book') %> <%= p.nomchef %></span><br>
-        <span class="badge badge-light"><%= fa_icon('mobile') %> <%= p.tel %></span></p>
+          <% if p.nomchef.present? %>
+            <span class="badge badge-light"><%= fa_icon('address-book') %> <%= p.nomchef %></span>
+          <% end %>
+          <% if p.tel.present? %>
+            <span class="badge badge-light"><%= fa_icon('mobile') %> <%= p.tel %></span><br/>
+          <% end %>
+        <% if p.bondecommande.present? %>
+          <span class="badge badge-light"><%= fa_icon('barcode') %> <%= p.bondecommande %></span>
+        <% end %>
+
+      </p>
       </div>
     </div>
     </div>
