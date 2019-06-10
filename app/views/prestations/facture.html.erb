@@ -23,11 +23,12 @@
                 <tr>
                   <th>Lieu</th>
                   <th>Période</th>
-                  <th><%= fa_icon('road')%></th>
                   <th><%= fa_icon('shower')%></th>
                   <th><%= fa_icon('hotel')%></th>
                   <th>Qte</th>
                   <th>P.U. HT</th>
+                  <th><%= fa_icon('road')%> Déplacement</th>
+                  <th><%= fa_icon('clock-o')%> hsup'</th>
                   <th>Montant</th>
                 </tr>
               </thead>
@@ -38,6 +39,7 @@
                 <% i = 0 %>
                 <% j = 0 %>
                 <% km = 0 %>
+                <% hsup = 0 %>
                   <tr>
                     <td><a href="<%= edit_prestation_path(p) %>"><span class="badge badge-secondary"><%= fa_icon('map-marker')%> <%= p.adresse %></span>
                       <span class="badge badge-light"><small><%= fa_icon('user')%> <%= p.nomchef %></small></span>
@@ -45,12 +47,6 @@
                     <% p.debut = Time.first_business_day(month.beginning_of_month) if p.debut < month.beginning_of_month %>
                     <% p.fin = Time.previous_business_day(month.end_of_month) if p.fin > month.end_of_month %>
                     <td><span class="badge badge-light"><%= fa_icon('calendar')%> <%= l(p.debut, format: '%d/%m/%Y') %> - <%= l(p.fin, format: '%d/%m/%Y') %></span></td>
-                    <td>
-                      <% if p.km %>
-                        <% km = p.km * 0.8 %>
-                        <span class="badge badge-pill badge-dark"><%= p.km  %> Km x 0.8 € = <%= km.round(2) %> €</span>
-                      <% end %>
-                    </td>
                     <td>
                       <% if Intemperie.where(date: p.debut..p.fin) %>
                         <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
@@ -68,14 +64,27 @@
                       <% end %>
                     </td>
                     <% p.nbjour = p.debut.business_dates_until(p.fin).count + 1 %>
-                    <td><span class="badge badge-pill badge-warning"><%= p.nbjour %>j</span></td>
+                    <td><span class="badge badge-pill badge-warning"><%= p.nbjour - i - j %>j</span></td>
                     <td><span class="badge badge-light badge-pill"><%= tarif.to_f %> €</span></td>
-                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) - km %><%= stotal %> €</span></td>
+                    <td>
+                      <% if p.km %>
+                      <% km = p.km * 0.8 * (p.nbjour - i - j) %>
+                      <span class="badge badge-pill badge-secondary"><%= p.km  %> Km x 0.8 € x <%= p.nbjour - i - j %>j   = <%= km.round(2) %> €</span>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if p.hsup %>
+                      <% hsup = p.hsup * 35 %>
+                      <span class="badge badge-pill badge-dark"><%= p.hsup  %> h x 35 € = <%= hsup.round(2) %> €</span>
+                      <% end %>
+                    </td>
+                    <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) + km %><%= stotal %> €</span></td>
                   </tr>
                   <% total = total + stotal %>
                 <% end %>
                 <tr>
                   <th>Total HT</th>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -92,10 +101,12 @@
                   <td></td>
                   <td></td>
                   <td></td>
+                  <td></td>
                   <td><span class="badge badge-secondary badge-pill"><% tva = total * 0.2 %><%= tva.round(2) %> €</span></td>
                 </tr>
                 <tr>
                   <th><strong>Total TTC</strong></th>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -108,8 +119,7 @@
             </table>
 
             <div class="card-body">
-              <a href="#" class="btn btn-warning"><%= fa_icon('file-pdf-o')%> Exporter en PDF</a>
-              <a href="#" class="btn btn-success disabled"><%= fa_icon('envelope')%> Envoyer par mail</a>
+              <a href="#" class="btn btn-warning"><%= fa_icon('file-pdf-o')%> Consulter en PDF</a>
             </div>
           </div>
         </div>
