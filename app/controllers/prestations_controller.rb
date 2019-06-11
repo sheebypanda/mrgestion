@@ -1,6 +1,6 @@
 class PrestationsController < ApplicationController
   before_action :set_prestation, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!
   def index
     @prestations = Prestation.all
   end

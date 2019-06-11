@@ -1,6 +1,7 @@
 class EmployeursController < ApplicationController
   before_action :set_employeur, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!
+  
   def index
     @employeurs = Employeur.all
   end

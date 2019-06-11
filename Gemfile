@@ -20,6 +20,7 @@ gem "animate-rails"
 gem 'rails-i18n'
 gem "simple_calendar", "~> 2.0"
 gem "business_time"
+gem "devise"
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

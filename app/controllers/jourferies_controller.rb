@@ -1,5 +1,6 @@
 class JourferiesController < ApplicationController
   before_action :set_jourfery, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   def index
     @jourferies = Jourferie.all
