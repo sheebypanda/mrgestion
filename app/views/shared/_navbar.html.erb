@@ -11,6 +11,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="<%= new_prestation_path %>"><%= fa_icon('wrench') %> Prestation</a>
+          <!-- <a class="dropdown-item" href="<%= new_facture_path %>"><%= fa_icon('file-pdf-o') %> Facture</a> -->
           <a class="dropdown-item" href="<%= new_employeur_path %>"><%= fa_icon('user') %> Employeur</a>
           <a class="dropdown-item" href="<%= new_client_path %>"><%= fa_icon('user-o') %> Client</a>
           <a class="dropdown-item" href="<%= new_machine_path %>"><%= fa_icon('truck') %> Machine</a>
@@ -43,6 +44,17 @@
       <li class="nav-item <% if request.path.start_with?('/jourferies') %>active<% end %>">
         <a class="nav-link" href="<%= jourferies_path %>"><%= fa_icon('hotel', class: 'text-warning') %> Jours fériés</a>
       </li>
+    </ul>
+
+    <ul class="navbar-nav my-2 my-lg-0">
+      <% if user_signed_in? %>
+        <li class="nav-item  mr-2 mb-1">
+          <%= link_to fa_icon("user-circle-o", class: "text-warning") + " " + 'Mon compte' , edit_user_registration_path, :class => 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to fa_icon("sign-out", class: "text-warning") + "Déconnexion", destroy_user_session_path, method: :delete, :class => 'nav-link'  %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </nav>

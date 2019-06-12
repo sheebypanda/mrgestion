@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_11_150326) do
+ActiveRecord::Schema.define(version: 2019_06_11_181728) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,31 @@ ActiveRecord::Schema.define(version: 2019_06_11_150326) do
     t.string "email2"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "facture_lignes", force: :cascade do |t|
+    t.bigint "prestation_id"
+    t.bigint "facture_id"
+    t.date "debut"
+    t.date "fin"
+    t.integer "qte"
+    t.float "km"
+    t.float "hsup"
+    t.float "montant"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facture_id"], name: "index_facture_lignes_on_facture_id"
+    t.index ["prestation_id"], name: "index_facture_lignes_on_prestation_id"
+  end
+
+  create_table "factures", force: :cascade do |t|
+    t.bigint "employeur_id"
+    t.integer "numero"
+    t.date "debut"
+    t.date "fin"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["employeur_id"], name: "index_factures_on_employeur_id"
   end
 
   create_table "intemperies", force: :cascade do |t|
@@ -93,6 +118,9 @@ ActiveRecord::Schema.define(version: 2019_06_11_150326) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "facture_lignes", "factures"
+  add_foreign_key "facture_lignes", "prestations"
+  add_foreign_key "factures", "employeurs"
   add_foreign_key "prestations", "clients"
   add_foreign_key "prestations", "employeurs"
   add_foreign_key "prestations", "machines"

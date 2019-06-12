@@ -1,0 +1,28 @@
+<%= simple_form_for(@facture) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <div class="row">
+      <div class="col">
+        <%= f.association :employeur, label_method: :nom, label: fa_icon('user')+' Employeur'  %>
+      </div>
+      <div class="col">
+        <%= f.input :numero, label: fa_icon('barcode')+' Numéro de facture', value: Facture.last.numero + 1  %>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <%= f.input :debut, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Début'  %>
+      </div>
+      <div class="col">
+        <%= f.input :fin, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Fin'  %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-warning' %>
+  </div>
+<% end %>

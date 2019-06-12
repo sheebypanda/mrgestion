@@ -2,6 +2,8 @@ class Prestation < ApplicationRecord
   belongs_to :employeur
   belongs_to :client
   belongs_to :machine
+  has_many :facture_lignes
+  has_many :factures, through: :facture_lignes
 
   def start_time
     self.debut.to_datetime

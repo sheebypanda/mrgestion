@@ -19,7 +19,7 @@
       <tr>
         <td><%= machine.marque %></td>
         <td><%= machine.modele %></td>
-        <td><%= machine.poids %></td>
+        <td><%= machine.poids %>t</td>
         <td><%= machine.idlocatier %></td>
         <td><%= link_to 'Modifier', edit_machine_path(machine) %></td>
         <td><%= link_to 'Détruire', machine, method: :delete, data: { confirm: 'Are you sure?' }, class: 'text-danger' %></td>
