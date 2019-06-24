@@ -8,7 +8,7 @@
         <%= f.association :employeur, label_method: :nom, label: fa_icon('user')+' Employeur'  %>
       </div>
       <div class="col">
-        <%= f.input :numero, label: fa_icon('barcode')+' Numéro de facture', value: Facture.last.numero + 1  %>
+        <%= f.input :numero, label: fa_icon('barcode')+' Numéro de facture', value: (Facture.last.numero + 1)  %>
       </div>
     </div>
     <div class="row">
@@ -19,6 +19,76 @@
         <%= f.input :fin, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Fin'  %>
       </div>
     </div>
+
+    <% if params[:action] == "edit"%>
+
+      <div class="row">
+        <div class="col">
+          <h5>Prestations sélectionnées</h5>
+          <table class="table table-hover table-borderless">
+            <thead>
+              <tr>
+                <th>Employeur</th>
+                <th>Client</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Machine</th>
+                <th>Localisation</th>
+                <th>Supprimer</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @facture.prestations.each do |p| %>
+                <tr>
+                  <td><%= p.employeur.nom %></td>
+                  <td><%= p.client.nom %></td>
+                  <td><%= l(p.debut, format: '%d/%m/%y') %></td>
+                  <td><%= l(p.fin, format: '%d/%m/%y') %></td>
+                  <td><%= p.machine.marque %> <%= p.machine.modele %></td>
+                  <td><%= p.adresse %> <%= p.ville %></td>
+                  <td><%= link_to 'Détruire', p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    <% end %>
+
+    <table class="table table-hover table-borderless">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Employeur</th>
+          <th>Client</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Machine</th>
+          <th>Localisation</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%= f.collection_check_boxes :prestation_ids, @prestations_nonfacture, :id, :nomchef do |input| %>
+          <tr>
+            <td>
+              <label>
+                <%= input.check_box %>
+              </label>
+            </td>
+            <td><%= input.object.employeur.nom %></td>
+            <td><%= input.object.client.nom %></td>
+            <td><%= l(input.object.debut, format: '%d/%m/%y') %></td>
+            <td><%= l(input.object.fin, format: '%d/%m/%y') %></td>
+            <td><%= input.object.machine.marque %> <%= input.object.machine.modele %></td>
+            <td><%= input.object.adresse %> <%= input.object.ville %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
   </div>
 
 

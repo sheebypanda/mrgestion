@@ -11,19 +11,29 @@ class FacturesController < ApplicationController
 
   def new
     @facture = Facture.new
+    @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
+    @facture.prestations.build
   end
 
   def edit
+    @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
   end
 
   def create
     @facture = Facture.new(facture_params)
-
     respond_to do |format|
       if @facture.save
+        params['facture']['prestation_ids'].each do |p|
+          if p.present?
+            fl = FactureLigne.new
+            fl.prestation_id = p
+            fl.facture_id = @facture.id
+            fl.debut = @facture.debut
+            fl.fin = @facture.fin
+            fl.save!
+          end
+        end
         format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
-      else
-        format.html { render :new }
       end
     end
   end
@@ -32,8 +42,19 @@ class FacturesController < ApplicationController
     respond_to do |format|
       if @facture.update(facture_params)
         format.html { redirect_to factures_path, notice: 'Facture modifiée.'}
-      else
-        format.html { render :edit }
+        if @facture.save
+          params['facture']['prestation_ids'].each do |p|
+            if p.present?
+              fl = FactureLigne.new
+              fl.prestation_id = p
+              fl.facture_id = @facture.id
+              fl.debut = @facture.debut
+              fl.fin = @facture.fin
+              fl.save!
+            end
+          end
+          format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
+        end
       end
     end
   end
