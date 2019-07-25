@@ -15,6 +15,8 @@
  *= require animate
  *= require simple_calendar
  */
+@import "overwrite";
 @import "bootstrap";
 @import "font-awesome";
 @import "animate";
+@import "main";

@@ -13,6 +13,7 @@ class FacturesController < ApplicationController
     @facture = Facture.new
     @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
     @facture.prestations.build
+    @facture.facture_lignes.build
   end
 
   def edit
@@ -23,16 +24,16 @@ class FacturesController < ApplicationController
     @facture = Facture.new(facture_params)
     respond_to do |format|
       if @facture.save
-        params['facture']['prestation_ids'].each do |p|
-          if p.present?
-            fl = FactureLigne.new
-            fl.prestation_id = p
-            fl.facture_id = @facture.id
-            fl.debut = @facture.debut
-            fl.fin = @facture.fin
-            fl.save!
-          end
-        end
+        # params['facture']['prestation_ids'].each do |p|
+        #   if p.present?
+        #     fl = FactureLigne.new
+        #     fl.prestation_id = p
+        #     fl.facture_id = @facture.id
+        #     fl.debut = @facture.debut
+        #     fl.fin = @facture.fin
+        #     fl.save!
+        #   end
+        # end
         format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
       end
     end
@@ -43,16 +44,16 @@ class FacturesController < ApplicationController
       if @facture.update(facture_params)
         format.html { redirect_to factures_path, notice: 'Facture modifiée.'}
         if @facture.save
-          params['facture']['prestation_ids'].each do |p|
-            if p.present?
-              fl = FactureLigne.new
-              fl.prestation_id = p
-              fl.facture_id = @facture.id
-              fl.debut = @facture.debut
-              fl.fin = @facture.fin
-              fl.save!
-            end
-          end
+          # params['facture']['prestation_ids'].each do |p|
+          #   if p.present?
+          #     fl = FactureLigne.new
+          #     fl.prestation_id = p
+          #     fl.facture_id = @facture.id
+          #     fl.debut = @facture.debut
+          #     fl.fin = @facture.fin
+          #     fl.save!
+          #   end
+          # end
           format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
         end
       end
@@ -73,7 +74,7 @@ class FacturesController < ApplicationController
     end
 
     def facture_params
-      params.require(:facture).permit(:employeur_id, :numero, :debut, :fin)
+      params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [])
     end
 
 end

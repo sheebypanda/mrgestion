@@ -1,7 +1,7 @@
 class EmployeursController < ApplicationController
   before_action :set_employeur, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  
+
   def index
     @employeurs = Employeur.all
   end
@@ -58,6 +58,6 @@ class EmployeursController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def employeur_params
-      params.require(:employeur).permit(:nom, :siret, :adresse, :cp, :ville, :tel, :email, :email2)
+      params.require(:employeur).permit(:nom, :siret, :adresse, :cp, :ville, :tel, :email, :email2, :color)
     end
 end

@@ -50,12 +50,10 @@
                 <tr>
                   <td><%= p.employeur.nom %></td>
                   <td><%= p.client.nom %></td>
+                  <% p.debut = @facture.debut if p.debut < @facture.debut %>
                   <td><%= l(p.debut, format: '%d/%m/%y') %></td>
-                  <% if p.fin > p.debut.end_of_month %>
-                    <td><%= l(p.debut.end_of_month, format: '%d/%m/%y') %></td>
-                  <% else %>
-                    <td><%= l(p.fin, format: '%d/%m/%y') %></td>
-                  <% end %>
+                  <% p.fin = @facture.fin if p.fin > @facture.fin %>
+                  <td><%= l(p.fin, format: '%d/%m/%y') %></td>
                   <% i = 0 %>
                   <% j = 0 %>
                   <% km = 0 %>
