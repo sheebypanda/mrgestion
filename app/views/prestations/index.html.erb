@@ -3,21 +3,19 @@
     <%= notice %>
   </div>
 <% end %>
-<table class="table table-hover table-borderless">
+<table class=" table table-sm table-striped table-borderless">
   <thead>
     <tr>
       <th><%= fa_icon('user') %> Employeur</th>
       <th><%= fa_icon('user-o') %> Client</th>
       <th><%= fa_icon('address-book') %> Chef</th>
-      <th><%= fa_icon('mobile') %></th>
       <th><%= fa_icon('truck') %> Machine</th>
       <th><%= fa_icon('hourglass-start') %> Début</th>
       <th><%= fa_icon('hourglass-end') %> Fin</th>
-      <th><%= fa_icon('') %> Nbjour</th>
-      <th><%= fa_icon('clock-o') %>hsup'</th>
-      <th><%= fa_icon('map-marker') %> Adresse</th>
-      <th><%= fa_icon('institution') %>Ville</th>
+      <th><%= fa_icon('') %> Qte</th>
+      <th><%= fa_icon('clock-o') %> hsup'</th>
       <th><%= fa_icon('road') %> km</th>
+      <th><%= fa_icon('map-marker') %> Adresse</th>
       <th colspan="2"></th>
     </tr>
   </thead>
@@ -25,18 +23,16 @@
   <tbody>
     <% @prestations.each do |prestation| %>
       <tr>
-        <td><%= prestation.employeur.nom %></td>
+        <td><span class="badge badge-pill badge-<%= prestation.employeur.color %>"><%= prestation.employeur.nom %></span></td>
         <td><%= prestation.client.nom %></td>
         <td><%= prestation.nomchef %></td>
-        <td><%= prestation.tel %></td>
-        <td><%= prestation.machine.marque %> <%= prestation.machine.modele %>, <%= prestation.machine.poids %></td>
+        <td><%= prestation.machine.marque %> <%= prestation.machine.modele %>, <%= prestation.machine.poids %>t</td>
         <td><%= l(prestation.debut, format: '%d/%m/%y')  %></td>
         <td><%= l(prestation.fin, format: '%d/%m/%y')  %></td>
-        <td><%= prestation.nbjour %></td>
-        <td><%= prestation.hsup %></td>
-        <td><%= prestation.adresse %></td>
-        <td><%= prestation.ville %></td>
-        <td><%= prestation.km %></td>
+        <td><span class="badge badge-dark badge-pill"><%= prestation.nbjour %>j</span></td>
+        <td><span class="badge badge-secondary badge-pill"><%= prestation.hsup.to_s + "h" if prestation.hsup %></span></td>
+        <td><span class="badge badge-light badge-pill"><%= prestation.km.to_s + " km" if prestation.km %></span></td>
+        <td><%= prestation.adresse %>, <strong><%= prestation.ville %></strong></td>
         <td><%= link_to 'Modifier', edit_prestation_path(prestation) %></td>
         <td><%= link_to 'Détruire', prestation, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %></td>
       </tr>
