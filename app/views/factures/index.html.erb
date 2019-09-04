@@ -3,7 +3,7 @@
     <%= notice %>
   </div>
 <% end %>
-<table class="table table-hover table-borderless">
+<table class="table table-sm table-striped table-borderless">
   <thead>
     <tr>
       <th><%= fa_icon('barcode') %> Identifiant</th>
@@ -21,7 +21,7 @@
     <% @factures.each do |f| %>
       <tr>
         <td><%= f.numero %></td>
-        <td><%= f.employeur.nom %></td>
+        <td><span class="badge badge-pill badge-<%= f.employeur.color %>"><%= f.employeur.nom %></span></td>
         <td><%=  l(f.debut, format: '%d/%m/%y') %></td>
         <td><%=  l(f.fin, format: '%d/%m/%y') %></td>
         <td><span class="badge badge-pill badge-warning"><%=  f.prestations.count %></span></td>
