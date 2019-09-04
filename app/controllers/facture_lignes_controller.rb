@@ -5,7 +5,7 @@ class FactureLignesController < ApplicationController
   def destroy
     @facture_ligne.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: 'Prestation supprimée de la facture.'}
+      format.html { redirect_back fallback_location: "/factures/#{@facture_ligne.facture}/edit", notice: 'Prestation supprimée de la facture.'}
       format.json { head :no_content }
     end
   end
