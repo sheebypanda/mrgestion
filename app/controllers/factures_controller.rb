@@ -3,7 +3,7 @@ class FacturesController < ApplicationController
   before_action :set_facture, only: [:show, :edit, :update, :destroy]
 
   def index
-    @factures  = Facture.all
+    @factures = Facture.all.order(debut: 'desc')
   end
 
   def show
@@ -24,16 +24,6 @@ class FacturesController < ApplicationController
     @facture = Facture.new(facture_params)
     respond_to do |format|
       if @facture.save
-        # params['facture']['prestation_ids'].each do |p|
-        #   if p.present?
-        #     fl = FactureLigne.new
-        #     fl.prestation_id = p
-        #     fl.facture_id = @facture.id
-        #     fl.debut = @facture.debut
-        #     fl.fin = @facture.fin
-        #     fl.save!
-        #   end
-        # end
         format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
       end
     end
@@ -42,19 +32,8 @@ class FacturesController < ApplicationController
   def update
     respond_to do |format|
       if @facture.update(facture_params)
-        format.html { redirect_to factures_path, notice: 'Facture modifiée.'}
         if @facture.save
-          # params['facture']['prestation_ids'].each do |p|
-          #   if p.present?
-          #     fl = FactureLigne.new
-          #     fl.prestation_id = p
-          #     fl.facture_id = @facture.id
-          #     fl.debut = @facture.debut
-          #     fl.fin = @facture.fin
-          #     fl.save!
-          #   end
-          # end
-          format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
+          format.html { redirect_back fallback_location: "/factures/#{@facture.id}/edit", notice: 'Prestation ajoutée à la facture.'}
         end
       end
     end
@@ -67,14 +46,14 @@ class FacturesController < ApplicationController
     end
   end
 
-  private
+private
 
-    def set_facture
-      @facture  = Facture.find(params[:id])
-    end
+  def set_facture
+    @facture = Facture.find(params[:id])
+  end
 
-    def facture_params
-      params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [])
-    end
+  def facture_params
+    params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [])
+  end
 
 end
