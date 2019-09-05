@@ -8,7 +8,7 @@
         <%= f.association :employeur, label_method: :nom, label: fa_icon('user')+' Employeur'  %>
       </div>
       <div class="col">
-        <%= f.input :numero, label: fa_icon('barcode')+' Numéro de facture', value: (Facture.last.numero + 1)  %>
+        <%= f.input :numero, label: fa_icon('barcode')+' Numéro de facture'  %>
       </div>
     </div>
     <div class="row">
@@ -68,7 +68,7 @@
                   <% until p.fin.workday? %>
                     <% p.fin = p.fin - 1 %>
                   <% end %>
-                  
+
                   <td><%= l(p.fin, format: '%d/%m/%y') %></td>
                   <% i = 0 %>
                   <% j = 0 %>
