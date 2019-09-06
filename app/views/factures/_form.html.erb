@@ -70,7 +70,7 @@
                   <% end %>
 
                   <td><%= l(p.fin, format: '%d/%m/%y') %></td>
-                  <% i = 0 %>
+                  <% qte_intemperie = 0.0 %>
                   <% j = 0 %>
                   <% km = 0 %>
                   <% hsup = 0 %>
@@ -78,8 +78,10 @@
                   <td>
                     <% if Intemperie.where(date: p.debut..p.fin) %>
                       <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
-                        <% i = Intemperie.where(date: p.debut..p.fin).count %>
-                        <span class="badge badge-pill badge-info"><%= i %></span>
+                        <% Intemperie.where(date: p.debut..p.fin).each do |i| %>
+                          <% qte_intemperie = qte_intemperie + i.qte %>
+                        <% end %>
+                        <span class="badge badge-pill badge-info"><%= qte_intemperie %>j</span>
                       <% end %>
                     <% end %>
                   </td>
@@ -87,7 +89,7 @@
                     <% if Jourferie.where(date: p.debut..p.fin) %>
                       <% if Jourferie.where(date: p.debut..p.fin).count > 0 %>
                         <% j = Jourferie.where(date: p.debut..p.fin).count %>
-                        <span class="badge badge-pill badge-danger"><%= j %></span>
+                        <span class="badge badge-pill badge-danger"><%= j %>j</span>
                       <% end %>
                     <% end %>
                   </td>
@@ -96,13 +98,13 @@
                   <% else %>
                     <% p.nbjour = p.debut.business_dates_until(p.fin).count + 1 %>
                   <% end %>
-                  <td><span class="badge badge-pill badge-warning"><%= p.nbjour - i - j %>j</span></td>
+                  <td><span class="badge badge-pill badge-warning"><%= p.nbjour - qte_intemperie - j %>j</span></td>
                   <td><%= p.adresse %>, <%= p.ville %></td>
                   <td><%= p.nomchef %></td>
                   <td>
                     <% if p.km %>
-                    <% km = p.km * 0.8 * (p.nbjour - i - j) %>
-                    <small><%= p.km  %> Km x 0.8 € x <%= p.nbjour - i - j %>j   = </small><span class="badge badge-pill badge-secondary"><%= km.round(2) %> €</span>
+                    <% km = p.km * 0.8 * (p.nbjour - qte_intemperie - j) %>
+                    <small><%= p.km  %> Km x 0.8 € x <%= p.nbjour - qte_intemperie - j %>j   = </small><span class="badge badge-pill badge-secondary"><%= km.round(2) %> €</span>
                     <% end %>
                   </td>
                   <td>
@@ -111,9 +113,7 @@
                     <small><%= p.hsup  %> h x 35 € =</small> <span class="badge badge-pill badge-dark"><%= hsup.round(2) %> €</span>
                     <% end %>
                   </td>
-                  <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - i ) + km %><%= stotal %> €</span></td>
-
-
+                  <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - qte_intemperie ) + km + hsup %><%= stotal %> €</span></td>
                   <td>
                     <%= link_to fa_icon('pencil 2x'), edit_prestation_path(p), class: 'text-primary' %>
                     <%= link_to fa_icon('close 2x'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>

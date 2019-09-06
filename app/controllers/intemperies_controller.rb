@@ -50,14 +50,13 @@ class IntemperiesController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_intempery
-      @intempery = Intemperie.find(params[:id])
-    end
+private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def intempery_params
-      params.require(:intemperie).permit(:date)
-    end
+  def set_intempery
+    @intempery = Intemperie.find(params[:id])
+  end
+
+  def intempery_params
+    params.require(:intemperie).permit(:date, :qte)
+  end
 end
