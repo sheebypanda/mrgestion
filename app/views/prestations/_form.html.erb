@@ -1,9 +1,11 @@
+<div class="container">
+
 <%= simple_form_for(@prestation) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col">
         <%= f.association :employeur, label_method: :nom, label: fa_icon('user')+' Employeur'  %>
       </div>
@@ -14,7 +16,7 @@
         <%= f.association :machine, label_method: lambda {|e| "#{e.marque} #{e.modele} - #{e.poids}"}, label: fa_icon('truck')+' Machine'  %>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col">
         <%= f.input :nbjour, label: fa_icon('address-book')+' Nombre de jour travaillé'  %>
       </div>
@@ -22,10 +24,11 @@
         <%= f.input :hsup, label: fa_icon('clock-o')+' heures sup\''  %>
       </div>
       <div class="col">
-        <%= f.input :bondecommande, label: fa_icon('barcode')+' Bon de commande'  %>
+        <% @prestation.tarif ? value = '200' : value = @prestation.tarif %>
+        <%= f.input :tarif, label: fa_icon('money')+' Tarif journalier', input_html: { value: value }  %>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col">
         <%= f.input :debut, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Début'  %>
       </div>
@@ -33,7 +36,7 @@
         <%= f.input :fin, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Fin'  %>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col">
         <%= f.input :adresse, label: fa_icon('map-marker')+' Adresse'  %>
       </div>
@@ -44,12 +47,15 @@
         <%= f.input :km, label: fa_icon('road')+' Éloignement'  %>
       </div>
     </div>
-    <div class="row">
+    <div class="row mt-3 mb-3">
       <div class="col">
         <%= f.input :nomchef, label: fa_icon('address-book')+' Nom du chef' %>
       </div>
       <div class="col">
         <%= f.input :tel, label: fa_icon('mobile')+' Portable'  %>
+      </div>
+      <div class="col">
+        <%= f.input :bondecommande, label: fa_icon('barcode')+' Bon de commande'  %>
       </div>
     </div>
 
@@ -57,3 +63,4 @@
     <%= f.button :submit, class: 'btn btn-warning' %>
   </div>
 <% end %>
+</div>

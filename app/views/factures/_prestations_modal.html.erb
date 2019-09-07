@@ -35,7 +35,7 @@
                           <%= input.check_box %>
                         </label>
                       </td>
-                      <td><%= input.object.employeur.nom %></td>
+                      <td><span class="badge badge-pill badge-<%= input.object.employeur.color %>"><%= input.object.employeur.nom %></span></td>
                       <td><%= input.object.client.nom %></td>
                       <td><%= l(input.object.debut, format: '%d/%m/%y') %></td>
                       <td><%= l(input.object.fin, format: '%d/%m/%y') %></td>

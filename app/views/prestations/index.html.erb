@@ -14,6 +14,7 @@
       <th><%= fa_icon('hourglass-end') %> Fin</th>
       <th><%= fa_icon('') %> Qte</th>
       <th><%= fa_icon('clock-o') %> hsup'</th>
+      <th><%= fa_icon('money') %> Tarif</th>
       <th><%= fa_icon('road') %> km</th>
       <th><%= fa_icon('map-marker') %> Adresse</th>
       <th colspan="2"></th>
@@ -31,6 +32,7 @@
         <td><%= l(prestation.fin, format: '%d/%m/%y')  %></td>
         <td><span class="badge badge-dark badge-pill"><%= prestation.nbjour %>j</span></td>
         <td><span class="badge badge-secondary badge-pill"><%= prestation.hsup.to_s + "h" if prestation.hsup %></span></td>
+        <td><span class="badge badge-light-blue badge-pill"><%= prestation.tarif.to_s + " € / j" if prestation.tarif %></span></td>
         <td><span class="badge badge-light badge-pill"><%= prestation.km.to_s + " km" if prestation.km %></span></td>
         <td><%= prestation.adresse %>, <strong><%= prestation.ville %></strong></td>
         <td><%= link_to 'Modifier', edit_prestation_path(prestation) %></td>

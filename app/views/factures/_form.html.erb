@@ -43,6 +43,7 @@
                 <th><%= fa_icon('shower')%></th>
                 <th><%= fa_icon('hotel')%></th>
                 <th>Qte</th>
+                <th>Tarif</th>
                 <th><%= fa_icon('map-marker')%> Localisation</th>
                 <th>Contact</th>
                 <th><%= fa_icon('road')%> Déplacement</th>
@@ -74,7 +75,6 @@
                   <% j = 0 %>
                   <% km = 0 %>
                   <% hsup = 0 %>
-                  <% tarif = 200 %>
                   <td>
                     <% if Intemperie.where(date: p.debut..p.fin) %>
                       <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
@@ -99,6 +99,7 @@
                     <% p.nbjour = p.debut.business_dates_until(p.fin).count + 1 %>
                   <% end %>
                   <td><span class="badge badge-pill badge-warning"><%= p.nbjour - qte_intemperie - j %>j</span></td>
+                  <td><span class="badge badge-pill badge-light-blue"><%= p.tarif %> €/j</span></td>
                   <td><%= p.adresse %>, <%= p.ville %></td>
                   <td><%= p.nomchef %></td>
                   <td>
@@ -113,7 +114,7 @@
                     <small><%= p.hsup  %> h x 35 € =</small> <span class="badge badge-pill badge-dark"><%= hsup.round(2) %> €</span>
                     <% end %>
                   </td>
-                  <td><span class="badge badge-info badge-pill"><% stotal = tarif * (p.nbjour - j - qte_intemperie ) + km + hsup %><%= stotal %> €</span></td>
+                  <td><span class="badge badge-deep-orange badge-pill"><% stotal = p.tarif * (p.nbjour - j - qte_intemperie ) + km + hsup %><%= stotal %> €</span></td>
                   <td>
                     <%= link_to fa_icon('pencil 2x'), edit_prestation_path(p), class: 'text-primary' %>
                     <%= link_to fa_icon('close 2x'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
@@ -123,6 +124,7 @@
               <% end %>
               <tr class="table-secondary">
                 <th>Total TTC</th>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
