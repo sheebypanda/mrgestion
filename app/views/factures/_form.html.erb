@@ -54,74 +54,94 @@
             </thead>
 
             <tbody>
+
               <% total = 0 %>
-              <% @facture.prestations.each do |p| %>
-                <tr>
-                  <td><%= p.employeur.nom %></td>
-                  <td><%= p.client.nom %></td>
-                  <% p.debut = @facture.debut if p.debut < @facture.debut %>
-                  <td><%= l(p.debut, format: '%d/%m/%y') %></td>
-                  <% p.fin = @facture.fin if p.fin > @facture.fin %>
+              <% @facture.facture_lignes.each do |fl| %>
+                <%= simple_form_for(fl) do |ffl| %>
+                  <tr>
+                    <td><%= fl.prestation.employeur.nom %></td>
+                    <td><%= fl.prestation.client.nom %></td>
 
-                  <% until p.debut.workday? %>
-                    <% p.debut = p.debut + 1 %>
-                  <% end %>
-                  <% until p.fin.workday? %>
-                    <% p.fin = p.fin - 1 %>
-                  <% end %>
+                    <% p = @facture.prestations.find(fl.prestation.id) %>
 
-                  <td><%= l(p.fin, format: '%d/%m/%y') %></td>
-                  <% qte_intemperie = 0.0 %>
-                  <% j = 0 %>
-                  <% km = 0 %>
-                  <% hsup = 0 %>
-                  <td>
-                    <% if Intemperie.where(date: p.debut..p.fin) %>
-                      <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
-                        <% Intemperie.where(date: p.debut..p.fin).each do |i| %>
-                          <% qte_intemperie = qte_intemperie + i.qte %>
+                    <% debut = p.debut %>
+                    <% if debut < @facture.debut %>
+                      <% debut = @facture.debut %>
+                    <% end %>
+                    <% until debut.workday? %>
+                      <% debut = debut + 1 %>
+                    <% end %>
+
+                    <td><%= ffl.input :debut, as: :string, input_html: {type: :date, value: debut}, label: false %></td>
+
+                    <% fin = p.fin %>
+                    <% if fin > @facture.fin %>
+                      <% fin = @facture.fin %>
+                    <% end %>
+                    <% until fin.workday? %>
+                      <% fin = fin - 1 %>
+                    <% end %>
+                    <td><%= ffl.input :fin, as: :string, input_html: {type: :date, value: fin}, label: false %></td>
+
+                    <td>
+                      <% qte_intemperie = 0.0 %>
+                      <% if Intemperie.where(date: p.debut..p.fin) %>
+                        <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
+                          <% Intemperie.where(date: p.debut..p.fin).each do |i| %>
+                            <% qte_intemperie = qte_intemperie + i.qte %>
+                          <% end %>
+                          <span class="badge badge-pill badge-info"><%= qte_intemperie %>j</span>
                         <% end %>
-                        <span class="badge badge-pill badge-info"><%= qte_intemperie %>j</span>
                       <% end %>
-                    <% end %>
-                  </td>
-                  <td>
-                    <% if Jourferie.where(date: p.debut..p.fin) %>
-                      <% if Jourferie.where(date: p.debut..p.fin).count > 0 %>
-                        <% j = Jourferie.where(date: p.debut..p.fin).count %>
-                        <span class="badge badge-pill badge-danger"><%= j %>j</span>
+                    </td>
+
+                    <td>
+                      <% if Jourferie.where(date: debut..fin) %>
+                        <% if Jourferie.where(date: debut..fin).count > 0 %>
+                          <% j = Jourferie.where(date: debut..fin).count %>
+                          <span class="badge badge-pill badge-danger"><%= j %>j</span>
+                        <% end %>
                       <% end %>
+                    </td>
+                    <% if fin > debut.end_of_month %>
+                      <% qte = debut.business_dates_until(fin).count %>
+                    <% else %>
+                      <% qte = debut.business_dates_until(fin).count + 1 %>
                     <% end %>
-                  </td>
-                  <% if p.fin > p.debut.end_of_month %>
-                    <% p.nbjour = p.debut.business_dates_until(p.debut.end_of_month).count %>
-                  <% else %>
-                    <% p.nbjour = p.debut.business_dates_until(p.fin).count + 1 %>
-                  <% end %>
-                  <td><span class="badge badge-pill badge-warning"><%= p.nbjour - qte_intemperie - j %>j</span></td>
-                  <td><span class="badge badge-pill badge-light-blue"><%= p.tarif %> €/j</span></td>
-                  <td><%= p.adresse %>, <%= p.ville %></td>
-                  <td><%= p.nomchef %></td>
-                  <td>
-                    <% if p.km %>
-                    <% km = p.km * 0.8 * (p.nbjour - qte_intemperie - j) %>
-                    <small><%= p.km  %> Km x 0.8 € x <%= p.nbjour - qte_intemperie - j %>j   = </small><span class="badge badge-pill badge-secondary"><%= km.round(2) %> €</span>
-                    <% end %>
-                  </td>
-                  <td>
-                    <% if p.hsup %>
-                    <% hsup = p.hsup * 35 %>
-                    <small><%= p.hsup  %> h x 35 € =</small> <span class="badge badge-pill badge-dark"><%= hsup.round(2) %> €</span>
-                    <% end %>
-                  </td>
-                  <td><span class="badge badge-deep-orange badge-pill"><% stotal = p.tarif * (p.nbjour - j - qte_intemperie ) + km + hsup %><%= stotal %> €</span></td>
-                  <td>
-                    <%= link_to fa_icon('pencil 2x'), edit_prestation_path(p), class: 'text-primary' %>
-                    <%= link_to fa_icon('close 2x'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
-                  </td>
-                </tr>
-                <% total = total + stotal %>
+                    <% j = Jourferie.where(date: debut..fin).count %>
+                    <% qte = qte - qte_intemperie - j %>
+                    <td><%= ffl.input :qte, label: false, input_html: { value: qte }  %></td>
+
+                    <td><span class="badge badge-pill badge-light-blue"><%= p.tarif %> €/j</span></td>
+                    <td><%= p.adresse %>, <%= p.ville %></td>
+                    <td><%= p.nomchef %></td>
+                    <td>
+                      <% if p.km %>
+                      <% km = p.km * 0.8 * (p.nbjour - qte_intemperie - j) %>
+                      <small><%= p.km  %> Km x 0.8 € x <%= p.nbjour - qte_intemperie - j %>j   = </small><span class="badge badge-pill badge-secondary"><%= km.round(2) %> €</span>
+                      <% else %>
+                        <% km = 0.0 %>
+                      <% end %>
+                    </td>
+                    <td>
+                      <% if p.hsup %>
+                      <% hsup = p.hsup * 35 %>
+                      <small><%= p.hsup  %> h x 35 € =</small> <span class="badge badge-pill badge-dark"><%= hsup.round(2) %> €</span>
+                      <% else %>
+                        <% hsup = 0 %>
+                      <% end %>
+                    </td>
+                    <td><span class="badge badge-deep-orange badge-pill"><% stotal = p.tarif * qte + km + hsup %><%= stotal %> €</span></td>
+                    <td>
+                      <%= link_to fa_icon('pencil 2x'), edit_prestation_path(p), class: 'text-primary' %>
+                      <%= link_to fa_icon('close 2x'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
+                    </td>
+                    </tr>
+
+                    <% total = total + stotal %>
+                <% end %>
               <% end %>
+
               <tr class="table-secondary">
                 <th>Total TTC</th>
                 <td></td>
