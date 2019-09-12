@@ -46,23 +46,24 @@
                 <th>Tarif</th>
                 <th><%= fa_icon('map-marker')%> Localisation</th>
                 <th>Contact</th>
-                <th><%= fa_icon('road')%> Déplacement</th>
-                <th><%= fa_icon('clock-o')%> hsup'</th>
+                <th>Déplacement</th>
+                <th><%= fa_icon('road')%></th>
+                <th>hsup'</th>
+                <th><%= fa_icon('clock-o')%></th>
                 <th>Montant</th>
-                <th>Action</th>
+                <th colspan="2">Action</th>
               </tr>
             </thead>
 
             <tbody>
 
               <% total = 0 %>
-              <% @facture.facture_lignes.each do |fl| %>
-                <%= simple_form_for(fl) do |ffl| %>
+              <%= f.simple_fields_for :facture_lignes do |ffl| %>
                   <tr>
-                    <td><%= fl.prestation.employeur.nom %></td>
-                    <td><%= fl.prestation.client.nom %></td>
+                    <td><%= ffl.object.prestation.employeur.nom %></td>
+                    <td><%= ffl.object.prestation.client.nom %></td>
 
-                    <% p = @facture.prestations.find(fl.prestation.id) %>
+                    <% p = @facture.prestations.find(ffl.object.prestation_id) %>
 
                     <% debut = p.debut %>
                     <% if debut < @facture.debut %>
@@ -88,7 +89,7 @@
                       <% if Intemperie.where(date: p.debut..p.fin) %>
                         <% if Intemperie.where(date: p.debut..p.fin).count > 0 %>
                           <% Intemperie.where(date: p.debut..p.fin).each do |i| %>
-                            <% qte_intemperie = qte_intemperie + i.qte %>
+                            <% qte_intemperie = qte_intemperie + i.qte.to_f %>
                           <% end %>
                           <span class="badge badge-pill badge-info"><%= qte_intemperie %>j</span>
                         <% end %>
@@ -113,37 +114,42 @@
                     <td><%= ffl.input :qte, label: false, input_html: { value: qte }  %></td>
 
                     <td><span class="badge badge-pill badge-light-blue"><%= p.tarif %> €/j</span></td>
-                    <td><%= p.adresse %>, <%= p.ville %></td>
+                    <td><%= p.adresse %>, <strong><%= p.ville %></strong></td>
                     <td><%= p.nomchef %></td>
-                    <td>
-                      <% if p.km %>
-                      <% km = p.km * 0.8 * (p.nbjour - qte_intemperie - j) %>
-                      <small><%= p.km  %> Km x 0.8 € x <%= p.nbjour - qte_intemperie - j %>j   = </small><span class="badge badge-pill badge-secondary"><%= km.round(2) %> €</span>
-                      <% else %>
-                        <% km = 0.0 %>
-                      <% end %>
-                    </td>
-                    <td>
-                      <% if p.hsup %>
+
+                    <% if p.km %>
+                      <% km = p.km * 0.8 * qte %>
+                    <% else %>
+                      <% km = 0.0 %>
+                    <% end %>
+                    <td><small><%= p.km.to_i  %>Km x 0.8€ x <%= qte %>j</small></td>
+                    <td><%= ffl.input :km, input_html: { value: km.round(2) }, label: false %></td>
+
+                    <% if p.hsup %>
                       <% hsup = p.hsup * 35 %>
-                      <small><%= p.hsup  %> h x 35 € =</small> <span class="badge badge-pill badge-dark"><%= hsup.round(2) %> €</span>
-                      <% else %>
-                        <% hsup = 0 %>
-                      <% end %>
-                    </td>
-                    <td><span class="badge badge-deep-orange badge-pill"><% stotal = p.tarif * qte + km + hsup %><%= stotal %> €</span></td>
+                    <% else %>
+                      <% hsup = 0 %>
+                    <% end %>
+                    <td><small><%= p.hsup.to_i  %>h x 35€</small></td>
+                    <td><%= ffl.input :hsup, input_html: { value: hsup.round(2) }, label: false %></td>
+
+                    <% stotal = p.tarif * qte + km + hsup %>
+                    <td><%= ffl.input :montant, input_html: { value: stotal }, label: false %></td>
+
                     <td>
-                      <%= link_to fa_icon('pencil 2x'), edit_prestation_path(p), class: 'text-primary' %>
-                      <%= link_to fa_icon('close 2x'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
+                      <!-- <%= link_to 'Voir la prestation', edit_prestation_path(p), class: 'text-primary' %> -->
+                      <%= ffl.button :submit, 'Modifier', class: 'btn btn-info' %>
+                      <%= link_to fa_icon('close'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
                     </td>
-                    </tr>
+                  </tr>
 
                     <% total = total + stotal %>
-                <% end %>
               <% end %>
 
               <tr class="table-secondary">
                 <th>Total TTC</th>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -169,3 +175,5 @@
   </div>
 </div>
 <% end %>
+
+<%= link_to fa_icon('eye')+' Visualiser la facture', facture_path(@facture), class: 'mt-3 btn btn-success', :target => "_blank" %>

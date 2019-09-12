@@ -4,6 +4,7 @@ class Facture < ApplicationRecord
   has_many :prestations, through: :facture_lignes
 
   validates_presence_of :numero, :debut, :fin
+  accepts_nested_attributes_for :facture_lignes
 
   def total
     facture_lignes.sum(:montant)

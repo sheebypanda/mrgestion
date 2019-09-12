@@ -1,6 +1,6 @@
 class FacturesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_facture, only: [:show, :edit, :update, :destroy]
+  before_action :set_facture, only: [:show, :edit, :update, :destroy, :show]
 
   def index
     @factures = Facture.all.order(debut: 'desc')
@@ -53,7 +53,7 @@ private
   end
 
   def facture_params
-    params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [])
+    params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [], facture_lignes_attributes: [:id, :debut, :fin, :qte, :km, :hsup, :montant])
   end
 
 end

@@ -22,9 +22,22 @@ class FactureLignesController < ApplicationController
     end
   end
 
-  private
+private
 
-    def set_facture_ligne
-      @facture_ligne  = FactureLigne.find(params[:id])
-    end
+  def facture_ligne_params
+    params.require(:facture_ligne).permit(
+      :prestation_id,
+      :facture_id,
+      :debut,
+      :fin,
+      :qte,
+      :km,
+      :hsup,
+      :montant
+    )
+  end
+  def set_facture_ligne
+    @facture_ligne  = FactureLigne.find(params[:id])
+  end
+
 end
