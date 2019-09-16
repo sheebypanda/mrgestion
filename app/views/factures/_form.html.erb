@@ -73,7 +73,10 @@
                       <% debut = debut + 1 %>
                     <% end %>
 
-                    <td><%= ffl.input :debut, as: :string, input_html: {type: :date, value: debut}, label: false %></td>
+                    <td>
+                      <small>Prestation : <%= l(p.debut, format: '%d/%m/%y') %></small><br/>
+                      <%= ffl.input :debut, as: :string, input_html: {type: :date}, label: false %>
+                    </td>
 
                     <% fin = p.fin %>
                     <% if fin > @facture.fin %>
@@ -82,7 +85,10 @@
                     <% until fin.workday? %>
                       <% fin = fin - 1 %>
                     <% end %>
-                    <td><%= ffl.input :fin, as: :string, input_html: {type: :date, value: fin}, label: false %></td>
+                    <td>
+                      <small>Prestation : <%= l(p.fin, format: '%d/%m/%y') %></small><br/>
+                      <%= ffl.input :fin, as: :string, input_html: {type: :date}, label: false %>
+                    </td>
 
                     <td>
                       <% qte_intemperie = 0.0 %>
