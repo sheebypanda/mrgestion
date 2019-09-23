@@ -4,10 +4,14 @@
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
     <div class="form-inputs">
-      <%= f.input :date, as: :string, input_html: {type: :date} %>
-    </div>
-    <div class="form-inputs">
-      <%= f.input :qte, label: 'Quantité' %>
+      <div class="row">
+        <div class="col">
+          <%= f.input :date, as: :string, input_html: {type: :date} %>
+        </div>
+        <div class="col">
+          <%= f.input :qte, label: 'Quantité' %>
+        </div>
+      </div>
     </div>
 
     <div class="form-actions">
