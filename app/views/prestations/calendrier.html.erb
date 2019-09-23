@@ -1,4 +1,8 @@
+
 <%= month_calendar events: @prestations  do |date, prestations| %>
+<% until date.workday? %>
+<%  date = date + 1 %>
+<% end %>
   <span class="badge badge-light"><%= date.day %></span>
 
   <% prestations.each do |p| %>
