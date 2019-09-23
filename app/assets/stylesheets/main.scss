@@ -4,3 +4,34 @@ a:hover {
 .fixed-height {
   height: 150px;
 }
+
+.simple-calendar {
+  .day {
+    width:20%;
+  }
+
+  .wday-0 {}
+  .wday-1 {}
+  .wday-2 {}
+  .wday-3 {}
+  .wday-4 {}
+  .wday-5 {}
+  .wday-6 {}
+
+  .today {}
+  .past {
+  }
+  .future {}
+
+  .start-date {}
+
+  .prev-month {
+    background-color: #DDD;
+  }
+  .next-month {
+    background-color: #DDD;
+  }
+  .current-month {}
+
+  .has-events {}
+}
