@@ -3,7 +3,12 @@
 <% until date.workday? %>
 <%  date = date + 1 %>
 <% end %>
-  <span class="badge badge-light"><%= date.day %></span>
+
+  <% if date == Date.today %>
+  <h5 class="text-center"><span class="badge badge-pill badge-primary p-2"><%= date.day %></span></h5>
+  <% else %>
+    <h5 class="text-center"><small><%= date.day %></small></h5>
+  <% end %>
 
   <% prestations.each do |p| %>
 
