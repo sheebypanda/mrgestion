@@ -1,17 +1,38 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <%= simple_form_for(@client) do |f| %>
+        <%= f.error_notification %>
+        <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-<%= simple_form_for(@client) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+        <div class="form-inputs">
+          <div class="row">
+            <div class="col">
+              <%= f.input :nom %>
+            </div>
+            <div class="col">
+              <%= f.input :siret %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <%= f.input :adresse %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <%= f.input :cp %>
+            </div>
+            <div class="col">
+              <%= f.input :ville %>
+            </div>
+          </div>
+        </div>
 
-  <div class="form-inputs">
-    <%= f.input :nom %>
-    <%= f.input :siret %>
-    <%= f.input :adresse %>
-    <%= f.input :cp %>
-    <%= f.input :ville %>
+        <div class="form-actions">
+          <%= f.button :submit, class: 'btn btn-warning' %>
+        </div>
+      <% end %>
+    </div>
   </div>
-
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn btn-warning' %>
-  </div>
-<% end %>
+</div>
