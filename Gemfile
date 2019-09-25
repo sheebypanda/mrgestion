@@ -23,6 +23,8 @@ gem "business_time"
 gem "devise"
 gem 'devise-i18n'
 gem 'jquery-tablesorter'
+gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

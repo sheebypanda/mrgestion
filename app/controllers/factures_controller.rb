@@ -7,6 +7,15 @@ class FacturesController < ApplicationController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "MR-Facture#{@facture.id}",   # Excluding ".pdf" extension.
+        template: "factures/show.html.erb",
+        layout: 'pdf.html'#,
+        #viewport_size: '1280x1024'
+      end
+    end
   end
 
   def new

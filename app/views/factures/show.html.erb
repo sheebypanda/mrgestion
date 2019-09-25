@@ -1,50 +1,53 @@
-<style>nav.navbar {display:none}</style>
 <div class="container">
 
-  <div class="mt-3 row">
-    <div class="col-md-3">
+  <div class="mt-3">
+    <div class="float-left">
       <img src="<%= image_url('mrlogo300.png')%>" width="200" />
     </div>
-    <div class="col-md-3 offset-md-6">
+    <div class="float-right">
       <h5>Facture N°<%= @facture.numero %></h5>
       <p><small>Le <%=l(Date.today, format: '%d/%m/%y')%></small></p>
     </div>
   </div>
 
-  <div class="row mt-3">
-    <div class="col">
-      <strong><%= fa_icon('user') %> Rasic Mattew</strong><br/>
-      <%= fa_icon('map-marker') %> 55 route de Madirac<br/>
+  <div style="clear:both"></div>
+
+  <div class="mt-3">
+    <div class="float-left">
+      <strong>Rasic Mattew</strong><br/>
+      55 route de Madirac<br/>
       33880, Saint-Caprais-de-Bordeaux<br/>
-      <%= fa_icon('mobile') %> 06 60 90 20 28<br/>
+      06 60 90 20 28<br/>
       SIRET : 80184268300022<br/>
     </div>
-    <div class="col-md-3 offset-md-5">
-      <strong><%= fa_icon('user') %> <%= @facture.employeur.nom %></strong><br/>
-      <%= fa_icon('map-marker') %> <%= @facture.employeur.adresse %><br/>
+    <div class="float-right">
+      <strong><%= @facture.employeur.nom %></strong><br/>
+      <%= @facture.employeur.adresse %><br/>
       <%= @facture.employeur.cp %>, <%= @facture.employeur.ville %><br/>
-      <%= fa_icon('phone') %> <%= @facture.employeur.tel %><br/>
+      <%= @facture.employeur.tel %><br/>
       SIRET : <%= @facture.employeur.siret %>
     </div>
   </div>
+
+  <div style="clear:both"></div>
 
   <h4 class="bg-indigo text-white p-2 mt-3 mb-3">Objet : Facture des prestations de <%= l(@facture.debut, format: '%B %Y') %></h4>
 
   <div class="row mt-3 mb-3">
     <div class="col">
-      <table class="table table-striped table-borderless">
+      <table class="table table-striped table-borderless" style="font-size:0.8em;">
         <thead>
           <tr>
-            <th><%= fa_icon('user') %> Client</th>
-            <th><%= fa_icon('calendar') %> Début</th>
-            <th><%= fa_icon('calendar') %> Fin</th>
-            <th><%= fa_icon('map-marker') %> Localisation</th>
-            <th><%= fa_icon('') %> Pelle</th>
-            <th><%= fa_icon('') %> Tarif</th>
-            <th><%= fa_icon('') %> Qte</th>
-            <th><%= fa_icon('road') %> Déplace.</th>
-            <th><%= fa_icon('clock-o') %> H sup'</th>
-            <th><%= fa_icon('') %> Montant</th>
+            <th>Client</th>
+            <th>Début</th>
+            <th>Fin</th>
+            <th>Localisation</th>
+            <th>Pelle</th>
+            <th>Tarif</th>
+            <th>Déplace.</th>
+            <th>H sup'</th>
+            <th>Qte</th>
+            <th>Montant</th>
           </tr>
         </thead>
         <tbody>
@@ -55,17 +58,17 @@
               <td><%= l(fl.fin, format: '%d/%m/%y') %></td>
               <td><%= fl.prestation.adresse %>, <strong><%= fl.prestation.ville %></strong></td>
               <td><%= fl.prestation.machine.marque %> <%= fl.prestation.machine.modele %>, <%= fl.prestation.machine.poids %>t</td>
-              <td><span class="badge badge-pill badge-secondary"><%= fl.prestation.tarif %> €/j</span></td>
-              <td><%= fl.qte  %></td>
-              <td><%= fl.km  %> €</td>
-              <td><%= fl.hsup  %> €</td>
-              <td><%= fl.montant  %> €</td>
+              <td><span class="badge badge-pill badge-secondary"><%= fl.prestation.tarif %>€/j</span></td>
+              <td><%= fl.km/fl.qte  %>€/j</td>
+              <td><%= fl.hsup %>€</td>
+              <td><%= fl.qte %>j</td>
+              <td><strong><%= fl.montant %>€</strong></td>
             </tr>
           <% end %>
             <tr class="table-secondary">
               <th>Total TTC</th>
               <td colspan="8"></td>
-              <th><%= @facture.total %> €</th>
+              <th><strong><%= @facture.total %>€</strong></th>
             </tr>
         </tbody>
       </table>
