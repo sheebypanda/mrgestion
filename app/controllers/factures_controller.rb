@@ -33,7 +33,9 @@ class FacturesController < ApplicationController
     @facture = Facture.new(facture_params)
     respond_to do |format|
       if @facture.save
-        format.html { redirect_to factures_path, notice: 'Facture ajoutée.'}
+        format.html do
+          redirect_to edit_facture_path(@facture)
+        end
       end
     end
   end
