@@ -28,7 +28,7 @@
                 </thead>
 
                 <tbody>
-                  <%= f.collection_check_boxes :prestation_ids, @prestations_nonfacture, :id, :nomchef do |input| %>
+                  <%= f.collection_check_boxes :prestation_ids, @prestations, :id, :nomchef do |input| %>
                     <tr>
                       <td>
                         <label>
