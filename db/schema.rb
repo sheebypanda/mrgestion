@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_12_150257) do
+ActiveRecord::Schema.define(version: 2019_09_29_105218) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_09_12_150257) do
     t.date "fin"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "remise"
     t.index ["employeur_id"], name: "index_factures_on_employeur_id"
   end
 

@@ -148,11 +148,15 @@
                       <%= link_to fa_icon('close'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
                     </td>
                   </tr>
-
-                    <% total = total + stotal %>
+                    <% if @facture.remise %>
+                      <% remise = @facture.remise %>
+                    <% else %>
+                      <% remise = 0.0 %>
+                    <% end %>
+                    <% total = total + stotal - remise %>
               <% end %>
 
-              <tr class="table-secondary">
+              <tr class="table-secondary ">
                 <th>Total TTC</th>
                 <td></td>
                 <td></td>
@@ -165,8 +169,8 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td>Remise:</td>
+                <td><%= f.input :remise, label: false %></td>
                 <th><%= (total).round(2) %> €</th>
                 <td></td>
               </tr>

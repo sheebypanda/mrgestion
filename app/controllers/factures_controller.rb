@@ -27,8 +27,8 @@ class FacturesController < ApplicationController
   end
 
   def edit
-    # @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
-    @prestations_nonfacture = Prestation.all
+    @prestations_nonfacture = Prestation.includes(:facture_lignes).where.not('facture_lignes.facture_id' => @facture.id )
+    # @prestations_nonfacture = Prestation.all
   end
 
   def create
@@ -66,7 +66,7 @@ private
   end
 
   def facture_params
-    params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, prestation_ids: [], facture_lignes_attributes: [:id, :debut, :fin, :qte, :km, :hsup, :montant])
+    params.require(:facture).permit(:employeur_id, :numero, :debut, :fin, :remise, prestation_ids: [], facture_lignes_attributes: [:id, :debut, :fin, :qte, :km, :hsup, :montant])
   end
 
 end
