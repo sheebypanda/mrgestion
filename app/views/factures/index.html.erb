@@ -11,6 +11,7 @@
       <th><%= fa_icon('hourglass-start') %> Début</th>
       <th><%= fa_icon('hourglass-end') %> Fin</th>
       <th><%= fa_icon('wrench') %> NB prestations</th>
+      <th><%= fa_icon('money') %> Remise</th>
       <th><%= fa_icon('money') %> Total</th>
 
       <th colspan="2"></th>
@@ -25,6 +26,7 @@
         <td><%=  l(f.debut, format: '%d/%m/%y') %></td>
         <td><%=  l(f.fin, format: '%d/%m/%y') %></td>
         <td><span class="badge badge-pill badge-warning"><%=  f.prestations.count %></span></td>
+        <td><%= f.remise %> €</td>
         <td><%= f.total.round(2) %> €</td>
 
         <td><%= link_to 'Modifier', edit_facture_path(f) %></td>

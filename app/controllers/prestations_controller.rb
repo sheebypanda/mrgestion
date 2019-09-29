@@ -66,6 +66,6 @@ class PrestationsController < ApplicationController
     end
 
     def prestation_params
-      params.require(:prestation).permit(:employeur_id, :client_id, :machine_id, :debut, :fin, :nbjour, :hsup, :adresse, :ville, :tel, :nomchef, :bondecommande, :km, :tarif)
+      params.require(:prestation).permit(:employeur_id, :client_id, :machine_id, :debut, :fin, :nbjour, :hsup, :adresse, :ville, :tel, :nomchef, :bondecommande, :km, :tarif, :mail)
     end
 end
