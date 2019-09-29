@@ -20,14 +20,15 @@ class FacturesController < ApplicationController
 
   def new
     @facture = Facture.new
-    @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
+    # @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
     @prestations_nonfacture = Prestation.all
     @facture.prestations.build
     @facture.facture_lignes.build
   end
 
   def edit
-    @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
+    # @prestations_nonfacture = Prestation.includes(:facture_lignes).where('facture_lignes.prestation_id' => ['', nil])
+    @prestations_nonfacture = Prestation.all
   end
 
   def create
