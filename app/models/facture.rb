@@ -7,6 +7,7 @@ class Facture < ApplicationRecord
   accepts_nested_attributes_for :facture_lignes
 
   def total
+    self.remise = 0 unless self.remise
     facture_lignes.sum(:montant) - self.remise
   end
 

@@ -26,11 +26,7 @@ class FacturesController < ApplicationController
   end
 
   def edit
-    prestation_ids = []
-    @facture.facture_lignes.each do |fl|
-      prestation_ids << fl.prestation.id
-    end
-    @prestations = Prestation.where(employeur: @facture.employeur).where.not(id: prestation_ids)
+    @prestations = @facture.employeur.prestations.where.not(id: @facture.facture_lignes.pluck(:prestation_id))
   end
 
   def create
