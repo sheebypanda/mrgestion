@@ -2,7 +2,7 @@
 
   <div class="mt-3">
     <div class="float-left">
-      <img src="<%= image_url('mrlogo300.png')%>" width="200" />
+      <%= wicked_pdf_image_tag 'mrlogo300.png', width: '200px' %>
     </div>
     <div class="float-right">
       <h5>Facture N°<%= @facture.numero %></h5>
