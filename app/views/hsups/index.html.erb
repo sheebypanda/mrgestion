@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <% if notice  %>
+        <div class="alert alert-success animated slideInDown mt-3" role="alert">
+          <%= notice %>
+        </div>
+      <% end %>
+
+      <div class="card mt-3">
+
+        <table class="table">
+          <thead>
+            <tr class="card-header">
+              <th>Qte</th>
+              <th>Date</th>
+              <th>Prestation</th>
+              <th colspan="2"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @hsups.each do |hsup| %>
+              <tr>
+                <td><%= hsup.qte %></td>
+                <td><%= l(hsup.date, format: '%d/%m/%y') %></td>
+                <td>
+                  <a href="<%= edit_prestation_path(hsup.prestation.id) %>">
+                    <%= l(hsup.prestation.debut, format: '%d/%m/%y') %> -
+                    <%= l(hsup.prestation.fin, format: '%d/%m/%y') %> -
+                    <%= hsup.prestation.employeur.nom %>,
+                    <%= hsup.prestation.employeur.ville %>
+                  </a>
+                </td>
+                <td><%= link_to 'Modifier', edit_hsup_path(hsup) %></td>
+                <td><%= link_to 'Détruire', hsup, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,13 @@ class Facture < ApplicationRecord
 
   def total
     self.remise = 0 unless self.remise
-    facture_lignes.sum(:montant) - self.remise
+    total = 0
+    self.prestations.each do |p|
+      p.hsups.each do |hs|
+        total = hs.qte * 35 + total
+      end
+    end
+    total = total + facture_lignes.sum(:montant) - self.remise
   end
 
 end

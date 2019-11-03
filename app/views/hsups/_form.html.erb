@@ -1,0 +1,39 @@
+<div class="container">
+
+  <%= simple_form_for(@hsup) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="form-inputs">
+      <div class="row">
+        <div class="col">
+          <%= f.input :date, as: :string, input_html: {type: :date}, label: fa_icon('calendar')+' Date'  %>
+        </div>
+        <div class="col">
+          <%= f.input :qte, label: 'Quantité, en heure' %>
+        </div>
+      </div>
+
+      <h5>Sélectionner la prestation associée : </h5>
+
+      <select id="hsup_prestation_id" class="form-control select required" name="hsup[prestation_id]">
+        <% @today_prestations.each do |p| %>
+          <option value="<%= p.id %>"><%= l(p.debut, format: '%d/%m/%y') %> - <%= l(p.fin, format: '%d/%m/%y') %> : <%= p.employeur.nom %>, <%= p.ville %></option>
+        <% end %>
+
+        <option value="" disabled="disabled">───────────────────────────────────</option>
+
+        <% @all_prestations.each do |p| %>
+          <option value="<%= p.id %>"><%= l(p.debut, format: '%d/%m/%y') %> - <%= l(p.fin, format: '%d/%m/%y') %> : <%= p.employeur.nom %>, <%= p.ville %></option>
+        <% end %>
+      </select>
+      <p class="m-2 ">Début - Fin : Employeur, ville</p>
+
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, class:"btn btn-warning mt-3" %>
+    </div>
+  <% end %>
+
+</div>

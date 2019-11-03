@@ -34,10 +34,11 @@
           </div>
 
           <table class="table table-stripped">
-            <thead>
+            <thead class="thead-dark">
               <tr>
-                <th><%= fa_icon('user')%> Employeur</th>
-                <th><%= fa_icon('user-o')%> Client</th>
+                <th>Nature</th>
+                <th>Employeur</th>
+                <th>Client</th>
                 <th><%= fa_icon('calendar')%> Début</th>
                 <th><%= fa_icon('calendar')%> Fin</th>
                 <th><%= fa_icon('shower')%></th>
@@ -45,11 +46,7 @@
                 <th>Qte</th>
                 <th>Tarif</th>
                 <th><%= fa_icon('map-marker')%> Localisation</th>
-                <th>Contact</th>
-                <th>Déplacement</th>
-                <th><%= fa_icon('road')%></th>
-                <th>hsup'</th>
-                <th><%= fa_icon('clock-o')%></th>
+                <th><%= fa_icon('road')%> Déplacement</th>
                 <th>Montant</th>
                 <th colspan="2">Action</th>
               </tr>
@@ -60,6 +57,7 @@
               <% total = 0 %>
               <%= f.simple_fields_for :facture_lignes do |ffl| %>
                   <tr>
+                    <td><span class="badge badge-pill badge-warning">Prestation</span></td>
                     <td><%= ffl.object.prestation.employeur.nom %></td>
                     <td><%= ffl.object.prestation.client.nom %></td>
 
@@ -121,25 +119,17 @@
 
                     <td><span class="badge badge-pill badge-light-blue"><%= p.tarif %> €/j</span></td>
                     <td><%= p.adresse %>, <strong><%= p.ville %></strong></td>
-                    <td><%= p.nomchef %></td>
 
                     <% if p.km %>
                       <% km = p.km * 0.8 * qte %>
                     <% else %>
                       <% km = 0.0 %>
                     <% end %>
-                    <td><small><%= p.km.to_i  %>Km x 0.8€ x <%= qte %>j</small></td>
-                    <td><%= ffl.input :km, input_html: { value: km.round(2) }, label: false %></td>
 
-                    <% if p.hsup %>
-                      <% hsup = p.hsup * 35 %>
-                    <% else %>
-                      <% hsup = 0 %>
-                    <% end %>
-                    <td><small><%= p.hsup.to_i  %>h x 35€</small></td>
-                    <td><%= ffl.input :hsup, input_html: { value: hsup.round(2) }, label: false %></td>
+                    <td><small><%= p.km.to_i  %>Km x 0.8€ x <%= qte %>j</small>
+                    <%= ffl.input :km, input_html: { value: km.round(2) }, label: false %></td>
 
-                    <% stotal = p.tarif * qte + km + hsup %>
+                    <% stotal = p.tarif * qte + km %>
                     <td><%= ffl.input :montant, input_html: { value: stotal }, label: false %></td>
 
                     <td>
@@ -148,6 +138,27 @@
                       <%= link_to fa_icon('close'), p.facture_lignes.first, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %>
                     </td>
                   </tr>
+
+                  <% p.hsups.each do |hs| %>
+                    <tr class="table-sm">
+                      <td><span class="badge badge-pill badge-orange">H sup'</span></td>
+                      <td></td>
+                      <td></td>
+                      <td><%= l(hs.date, format: '%d/%m/%y') %></td>
+                      <td><%= l(hs.date, format: '%d/%m/%y') %></td>
+                      <td></td>
+                      <td></td>
+                      <td><%= hs.qte %>h</td>
+                      <td><span class="badge badge-pill badge-pink">35€/h</span></td>
+                      <td></td>
+                      <td></td>
+                      <td><%= hs.qte * 35 %> €</td>
+                      <% total = total + hs.qte * 35 %>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  <% end %>
+
                     <% if @facture.remise %>
                       <% remise = @facture.remise %>
                     <% else %>
@@ -156,7 +167,23 @@
                     <% total = total + stotal - remise %>
               <% end %>
 
-              <tr class="table-secondary ">
+              <tr class="bg-info text-light">
+                <td><strong>Remise</strong></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><%= f.input :remise, label: false %></td>
+                <td></td>
+              </tr>
+
+              <tr class="table-secondary">
                 <th>Total TTC</th>
                 <td></td>
                 <td></td>
@@ -168,9 +195,6 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td>Remise:</td>
-                <td><%= f.input :remise, label: false %></td>
                 <th><%= (total).round(2) %> €</th>
                 <td></td>
               </tr>

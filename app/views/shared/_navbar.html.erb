@@ -16,6 +16,7 @@
           <a class="dropdown-item" href="<%= new_client_path %>"><%= fa_icon('user-o') %> Client</a>
           <a class="dropdown-item" href="<%= new_machine_path %>"><%= fa_icon('truck') %> Machine</a>
           <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="<%= new_hsup_path %>"><%= fa_icon('clock-o') %> H sup'</a>
           <a class="dropdown-item" href="<%= new_intempery_path %>"><%= fa_icon('shower') %> Intempérie</a>
           <a class="dropdown-item" href="<%= new_jourfery_path %>"><%= fa_icon('hotel') %> Jour férié</a>
         </div>
@@ -37,6 +38,9 @@
       </li>
       <li class="nav-item <% if request.path.start_with?('/machines') %>active<% end %>">
         <a class="nav-link" href="<%= machines_path %>"><%= fa_icon('truck', class: 'text-warning') %> Machines</a>
+      </li>
+      <li class="nav-item <% if request.path.start_with?('/hsups') %>active<% end %>">
+        <a class="nav-link" href="<%= hsups_path %>"><%= fa_icon('clock-o', class: 'text-warning') %> H sup'</a>
       </li>
       <li class="nav-item <% if request.path.start_with?('/intemperies') %>active<% end %>">
         <a class="nav-link" href="<%= intemperies_path %>"><%= fa_icon('shower', class: 'text-warning') %> Intempéries</a>

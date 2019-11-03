@@ -13,8 +13,7 @@
       <th><%= fa_icon('wrench') %> NB prestations</th>
       <th><%= fa_icon('money') %> Remise</th>
       <th><%= fa_icon('money') %> Total</th>
-
-      <th colspan="2"></th>
+      <th colspan="3"></th>
     </tr>
   </thead>
 
@@ -29,6 +28,7 @@
         <td><%= f.remise %> €</td>
         <td><%= f.total.round(2) %> €</td>
 
+        <td><%= link_to 'Visualiser', facture_path(f, :format => :pdf), :target => "_blank" %></td>
         <td><%= link_to 'Modifier', edit_facture_path(f) %></td>
         <td><%= link_to 'Détruire', f, method: :delete, data: { confirm: 'Are you sure?' }, class:'text-danger' %></td>
       </tr>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_29_112257) do
+ActiveRecord::Schema.define(version: 2019_10_31_143301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,15 @@ ActiveRecord::Schema.define(version: 2019_09_29_112257) do
     t.datetime "updated_at", null: false
     t.float "remise"
     t.index ["employeur_id"], name: "index_factures_on_employeur_id"
+  end
+
+  create_table "hsups", force: :cascade do |t|
+    t.float "qte"
+    t.date "date"
+    t.bigint "prestation_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["prestation_id"], name: "index_hsups_on_prestation_id"
   end
 
   create_table "intemperies", force: :cascade do |t|
@@ -126,6 +135,7 @@ ActiveRecord::Schema.define(version: 2019_09_29_112257) do
   add_foreign_key "facture_lignes", "factures"
   add_foreign_key "facture_lignes", "prestations"
   add_foreign_key "factures", "employeurs"
+  add_foreign_key "hsups", "prestations"
   add_foreign_key "prestations", "clients"
   add_foreign_key "prestations", "employeurs"
   add_foreign_key "prestations", "machines"

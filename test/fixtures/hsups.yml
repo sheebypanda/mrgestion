@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  qte: 1.5
+  date: 2019-10-31
+  prestation: one
+
+two:
+  qte: 1.5
+  date: 2019-10-31
+  prestation: two
