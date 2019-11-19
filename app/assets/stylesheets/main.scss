@@ -37,5 +37,11 @@ a:hover {
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    // font-family: 'Roboto', sans-serif;
+}
+@font-face {
+font-family: 'Roboto-Regular';
+src: url(font-path('Roboto-Regular.ttf')), format('truetype');
+font-weight: normal;
+font-style: normal;
 }
